@@ -114,10 +114,10 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Optional: Install kubectl on your local machine**
    ```shell
    # Copy the kubeconfig from Pi to your local machine
-   $ scp pi@192.168.1.100:/etc/rancher/k3s/k3s.yaml ~/.kube/config-homelab
+   $ scp pi@192.168.1.100:/etc/rancher/k3s/k3s.yaml ~/.kube/config-home-lab
    
    # Edit the server URL in the config file to point to your Pi's IP
-   # Then use: export KUBECONFIG=~/.kube/config-homelab
+   # Then use: export KUBECONFIG=~/.kube/config-home-lab
    ```
 
 ### Step 3: Essential Cluster Components
