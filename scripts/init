@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Initialization script for home-lab
+
+# set -euo pipefail: Enable strict error handling in the script
+# -e: Exit immediately if any command fails (non-zero exit status)
+# -u: Treat references to unset variables as errors
+# -o pipefail: Cause pipelines to fail if any command in the pipeline fails
+set -euo pipefail
+
+echo "Initializing home-lab..."
+
+# Add your initialization commands here
+curl -sfL https://get.k3s.io | sh -
+sudo kubectl get nodes
+sudo kubectl get all --all-namespaces
+
+echo "Initialization complete!"
