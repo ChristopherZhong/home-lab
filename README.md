@@ -134,8 +134,8 @@ K3s comes with Traefik by default, but we'll configure it properly:
 # Apply Traefik dashboard configuration
 kubectl apply -f kube-system/traefik.yaml
 
-# Access dashboard at: http://traefik.raspberrypi.local
-# (Add entry to /etc/hosts: <PI_IP> traefik.raspberrypi.local)
+# Access dashboard at: http://traefik.raspberrypi-1.local
+# (Add entry to /etc/hosts: <PI_IP> traefik.raspberrypi-1.local)
 ```
 
 ## 📊 Monitoring and Observability
