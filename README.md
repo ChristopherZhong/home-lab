@@ -100,7 +100,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
    $ sudo kubectl get nodes
    ```
 
-1. **Configure kubectl for non-root user**
+1. **Optional: Configure kubectl for non-root user**
    ```shell
    # Copy kubeconfig to user directory
    $ mkdir -p ~/.kube
