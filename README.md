@@ -100,6 +100,18 @@ The following instructions are for preparing the SSD. We assume that the SD card
    $ sudo kubectl get nodes
    ```
 
+   **Note**: An initialization script ([init](./scripts/init)) is provided that can initialize K3s in either server or agent mode.
+   ```shell
+   $ ./scripts/init
+   ```
+
+1. **Upgrade K3s**. Follow the instructions in this [guide](https://docs.k3s.io/upgrades) to upgrade K3s.
+
+   **Note**: To upgrade K3s to the latest stable version in the future, use the provided script:
+   ```shell
+   $ ./scripts/upgrade
+   ```
+
 1. **Optional: Configure kubectl for non-root user**
    ```shell
    # Copy kubeconfig to user directory
