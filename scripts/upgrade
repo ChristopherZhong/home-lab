@@ -25,6 +25,9 @@ sudo systemctl stop k3s
 # --location: Follow HTTP redirects automatically
 curl --silent --fail --location https://get.k3s.io | sh -
 
+# Ensure K3s service is started after upgrade
+sudo systemctl start k3s
+
 # Wait for K3s to start
 echo "Waiting for K3s to restart..."
 # Poll until kubectl get nodes succeeds, indicating K3s API is ready
