@@ -38,6 +38,9 @@ done
 echo "Validating upgrade..."
 k3s --version
 sudo kubectl get nodes
-sudo kubectl get pods -A | head -20
+# kubectl get pods --all-namespaces | head --lines=20: List pods across all namespaces and limit output to first 20 lines
+# --all-namespaces: Include pods from all namespaces for a comprehensive view
+# head --lines=20: Display only the first 20 lines to avoid excessive output while checking pod status
+sudo kubectl get pods --all-namespaces | head --lines=20
 
 echo "K3s upgrade completed successfully."
