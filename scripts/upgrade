@@ -19,11 +19,11 @@ echo "Upgrading K3s to the latest stable version..."
 sudo systemctl stop k3s
 
 # Upgrade to latest stable
-# curl -sfL: Download options for the K3s install script
-# -s: Silent mode, suppress progress meter and error messages
-# -f: Fail fast on HTTP errors (4xx/5xx), exit with non-zero status
-# -L: Follow HTTP redirects automatically
-curl -sfL https://get.k3s.io | sh -
+# curl --silent --fail --location: Download options for the K3s install script
+# --silent: Silent mode, suppress progress meter and error messages
+# --fail: Fail fast on HTTP errors (4xx/5xx), exit with non-zero status
+# --location: Follow HTTP redirects automatically
+curl --silent --fail --location https://get.k3s.io | sh -
 
 # Wait for K3s to start
 echo "Waiting for K3s to restart..."
