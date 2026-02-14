@@ -19,6 +19,48 @@ The home lab starts with a single Raspberry Pi 5 and can be expanded to a multi-
 - **Storage**: Local storage with expansion to distributed storage solutions
 - **Networking**: Traefik for ingress and load balancing
 
+---
+
+## 🗺️ Road Map
+
+Here is the plan for building the home lab.
+
+### ✅ Phase 1: Initial Setup
+1. [x] [Step 1: Prepare Raspberry Pi OS](#step-1-prepare-raspberry-pi-os)
+    1. [x] Download Raspberry Pi Imager
+    1. [x] Flash Raspberry Pi OS
+    1. [x] Generate SSH Key Pair
+    1. [x] Boot from NVMe SSD
+    1. [x] Initial Boot and Setup (SSH, System Updates)
+    1. [x] Install and Configure Git
+1. [x] [Step 2: Install Kubernetes (K3s)](#step-2-install-kubernetes-k3s)
+    - [x] Enable cgroups
+    - [x] Install K3s
+    - [ ] (Optional) Configure kubectl for non-root user
+    - [ ] (Optional) Install kubectl on local machine
+1. [x] [Step 3: Argo CD - Declarative GitOps](#step-3-argo-cd---declarative-gitops)
+1. [ ] [(Optional) Step 4: Install Helm](#optional-step-4-install-helm)
+
+### 🟡 Phase 2: Core Services
+- [ ] **Networking**: Configure Traefik Ingress Controller
+- [ ] **Monitoring and Observability**: Grafana Setup
+- [ ] **Security and Secrets Management**: Kubernetes Dashboard, Infisical
+- [ ] **Database Services**: PostgreSQL with CloudNativePG
+
+### 📝 Phase 3: Expanding the Cluster
+
+- [ ] **Add Worker Nodes**: Install additional Raspberry Pis and join them to the cluster
+- [ ] **High Availability**: Configure multiple master nodes for production resilience
+- [ ] **Storage Solutions**: Implement Longhorn or other distributed storage
+- [ ] **Service Mesh**: Explore Istio or Linkerd for advanced networking
+
+### 🚀 Phase 4: Advanced Topics
+
+- [ ] **Advanced Monitoring**: Prometheus Stack, Log Aggregation, Distributed Tracing
+- [ ] **Security Hardening**: Network Policies, Pod Security Standards, RBAC, Certificate Management
+
+---
+
 ## 🚀 Getting Started
 
 Details for the completed steps are below.
@@ -31,7 +73,7 @@ Details for the completed steps are below.
 - Network connection (Ethernet preferred)
 - Another computer for SSH access
 
-### Step 1: Prepare Raspberry Pi OS
+### **Step 1**: Prepare Raspberry Pi OS
 
 The following instructions are for preparing the SSD. We assume that the SD card is already flashed. If not, the following instructions may still work.
 
@@ -82,7 +124,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
    ```
    For more details see the [docs](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
 
-### Step 2: Install Kubernetes (K3s)
+### **Step 2**: Install Kubernetes (K3s)
 
 [K3s](https://k3s.io/) is chosen for its lightweight nature and excellent ARM64 support.
 
@@ -134,7 +176,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
    # Then use: export KUBECONFIG=~/.kube/config-home-lab
    ```
 
-### Step 3: Argo CD - Declarative GitOps CD for Kubernetes
+### **Step 3**: Argo CD - Declarative GitOps
 
 Set up Argo CD for GitOps to manage applications declaratively. Use the official installation manifest for the latest stable release. For more details, see the [guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
@@ -149,7 +191,7 @@ Set up Argo CD for GitOps to manage applications declaratively. Use the official
 # Password: see the output from the script, or check the `argocd-initial-admin-password` file.
 ```
 
-### **Optional** Step 4: Install Helm
+### (*Optional*) **Step 4**: Install Helm
 
 ```shell
 # Install Helm
@@ -257,26 +299,6 @@ kubectl cluster-info
 # Verify K3s status
 sudo systemctl status k3s
 ```
-
-## 📈 Next Steps
-
-### Expanding the Cluster
-1. **Add Worker Nodes**: Install additional Raspberry Pis and join them to the cluster
-2. **High Availability**: Configure multiple master nodes for production resilience
-3. **Storage Solutions**: Implement Longhorn or other distributed storage
-4. **GitOps**: Set up ArgoCD or Flux for automated deployments
-5. **Service Mesh**: Explore Istio or Linkerd for advanced networking
-
-### Advanced Monitoring
-1. **Prometheus Stack**: Deploy full monitoring stack with Prometheus, AlertManager
-2. **Log Aggregation**: Set up ELK stack or Loki for centralized logging
-3. **Distributed Tracing**: Implement Jaeger for application tracing
-
-### Security Hardening
-1. **Network Policies**: Implement Kubernetes network policies
-2. **Pod Security Standards**: Configure pod security contexts
-3. **RBAC**: Fine-tune role-based access control
-4. **Certificate Management**: Set up cert-manager for TLS automation
 
 ## 📚 Learning Resources
 
