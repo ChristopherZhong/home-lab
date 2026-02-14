@@ -1,13 +1,13 @@
-# Kubernetes Home Lab
+# 🏡 Kubernetes Home Lab
 
 A comprehensive guide to building a production-ready Kubernetes home lab, starting with a single Raspberry Pi 5 and growing incrementally. This project documents the journey of learning Kubernetes while building a well-structured cluster for home use.
 
 ## 🎯 Project Goals
 
-- **Document Home Lab Build**: Step-by-step instructions for building a Kubernetes home lab from scratch
-- **Learn Kubernetes**: Hands-on experience with Kubernetes concepts, tools, and best practices
-- **Incremental Growth**: Start simple with one node and expand the cluster over time
-- **Production Practices**: Implement monitoring, security, and operational best practices
+- ✅ **Document Home Lab Build**: Step-by-step instructions for building a Kubernetes home lab from scratch
+- ✅ **Learn Kubernetes**: Hands-on experience with Kubernetes concepts, tools, and best practices
+- 🟡 **Incremental Growth**: Start simple with one node and expand the cluster over time
+- 🟡 **Production Practices**: Implement monitoring, security, and operational best practices
 
 ## 🏗️ Architecture Overview
 
@@ -20,6 +20,8 @@ The home lab starts with a single Raspberry Pi 5 and can be expanded to a multi-
 - **Networking**: Traefik for ingress and load balancing
 
 ## 🚀 Getting Started
+
+Details for the completed steps are below.
 
 ### Prerequisites
 
@@ -132,22 +134,29 @@ The following instructions are for preparing the SSD. We assume that the SD card
    # Then use: export KUBECONFIG=~/.kube/config-home-lab
    ```
 
-### Step 3: Essential Cluster Components
+### Step 3: Argo CD - Declarative GitOps CD for Kubernetes
 
-#### Install Helm (Package Manager)
+Set up Argo CD for GitOps to manage applications declaratively. Use the official installation manifest for the latest stable release. For more details, see the [guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
+
+**Note:** The installation script uses server-side apply (`--server-side`) to work around a [known issue](https://github.com/argoproj/argo-cd/issues/10763) with the size of the ApplicationSet CRD.
+
 ```shell
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+# Install ArgoCD using the provided script
+./scripts/install-argocd
+
+# Access ArgoCD at: https://argocd.raspberrypi-1.local
+# Username: admin
+# Password: see the output from the script, or check the `argocd-initial-admin-password` file.
 ```
 
-#### Setup Ingress with Traefik
-K3s comes with Traefik by default, but we'll configure it properly:
+### **Optional** Step 4: Install Helm
 
 ```shell
-# Apply Traefik dashboard configuration
-kubectl apply -f kube-system/traefik.yaml
+# Install Helm
+$ curl --silent --fail --location https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# Access dashboard at: http://traefik.raspberrypi-1.local
-# (Add entry to /etc/hosts: <PI_IP> traefik.raspberrypi-1.local)
+# Check that Helm is installed
+$ helm version
 ```
 
 ## 📊 Monitoring and Observability
@@ -293,5 +302,5 @@ This is a learning project! Feel free to:
 
 ---
 
-*Last updated: 2024-10-24*
+*Last updated: 2026-02-14*
 *Cluster Status: Single Node (Raspberry Pi 5)*
