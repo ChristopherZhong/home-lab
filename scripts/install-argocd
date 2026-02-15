@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Script to install ArgoCD using the official manifest
+# Usage: ./install-argocd
+
+# set -euo pipefail: Enable strict error handling in the script
+# -e: Exit immediately if any command fails (non-zero exit status)
+# -u: Treat references to unset variables as errors
+# -o pipefail: Cause pipelines to fail if any command in the pipeline fails
+set -euo pipefail
+
+echo "Installing ArgoCD..."
+
+# Create the argocd namespace
+sudo kubectl create namespace argocd
+
+# Apply the official ArgoCD Kubernetes manifest
+# kubectl apply --namespace argocd --filename https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# --namespace: Specify the namespace for the resources
+# --server-side: Use server-side apply to avoid the "metadata.annotations: Too long" error.
+#   The server calculates the patch, which avoids a client-side limitation with large annotations.
+# --force-conflicts: Forces the overwrite of conflicting fields when switching to server-side apply.
+# --filename: Filename or URL of the manifest to apply
+sudo kubectl apply --namespace argocd --server-side --force-conflicts --filename https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Wait for ArgoCD to be ready
+echo "Waiting for ArgoCD to be ready..."
+sudo kubectl wait --for=condition=available --namespace argocd --timeout=300s deployment/argocd-server
+
+# Retrieve the initial admin password 'argocd-initial-admin-secret' from the 'argocd' namespace
+echo "ArgoCD initial admin password:"
+# kubectl --namespace argocd get secret argocd-initial-admin-secret: Retrieve the secret named 'argocd-initial-admin-secret' from the 'argocd' namespace
+# --output jsonpath="{.data.password}": Use JSONPath to extract the specific 'password' field from the secret's data
+# | base64 --decode: Decode the Base64 encoded password string to plain text
+# | tee argocd-initial-admin-password: Save the decoded password to the file 'argocd-initial-admin-password' and print it to the terminal
+sudo kubectl --namespace argocd get secret argocd-initial-admin-secret --output jsonpath="{.data.password}" | base64 --decode | tee argocd-initial-admin-password
+echo ""
+
+# Configure ingress for ArgoCD via Traefik.
+# kubectl apply --filename ../argocd/argocd-server-ingress.yaml
+sudo kubectl apply --filename ../argocd/argocd-server-ingress.yaml
+
+# Validate that the ingress is set
+sudo kubectl get ingress --namespace argocd
+
+echo "ArgoCD installed successfully."
+echo "Use sudo k3s kubectl port-forward svc/argocd-server --namespace argocd 8080:443"
+echo "To access the UI, visit: https://argocd.raspberrypi-1.local"
+echo "Username: admin"
+echo "Password: (from above)"
