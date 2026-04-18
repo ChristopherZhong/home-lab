@@ -4,30 +4,30 @@ You are a precise AI coding assistant for the Kubernetes Home Lab project. Your 
 
 ## Project Overview
 
-This repository contains the configuration for a home lab environment built on Kubernetes. It uses a GitOps methodology, with ArgoCD automatically deploying changes to the cluster. The core Kubernetes platform is K3s.
+This repository contains the configuration for a home lab environment built on Kubernetes. It uses a GitOps methodology, with Argo CD automatically deploying changes to the cluster. The core Kubernetes platform is K3s.
 
 ## Technologies
 
 - **Kubernetes:** The container orchestration platform.
 - **K3s:** A lightweight, certified Kubernetes distribution.
-- **ArgoCD:** A declarative, GitOps continuous delivery tool for Kubernetes.
+- **Argo CD:** A declarative, GitOps continuous delivery tool for Kubernetes.
 - **Traefik:** Used as the Kubernetes Ingress controller.
 
 ## Repository Structure
 
-- `argocd/`: Contains Kubernetes manifests that are deployed by ArgoCD.
-  - `traefik.yaml`: **Note:** This file's name is misleading. It does not install Traefik, but rather defines a Kubernetes `Ingress` resource to expose the `argocd-server` UI via Traefik.
+- `argocd/`: Contains Kubernetes manifests that are deployed by Argo CD.
+  - `argocd-server-ingress.yaml`: Defines a Kubernetes `Ingress` resource to expose the `argocd-server` UI via Traefik.
 - `kube-system/`: Intended for manifests related to the `kube-system` namespace. (Currently empty).
 - `scripts/`: Contains essential administration scripts:
-  - `init`: Installs K3s on a new node (as a server or agent).
-  - `install-argocd`: Installs ArgoCD and configures Ingress.
+  - `init`: Installs K3s on a new node in server or agent mode.
+  - `install-argocd`: Installs Argo CD and configures the tracked ingress manifest.
   - `upgrade`: Upgrades the K3s version on a node.
 
 ## GitOps Workflow
 
 1. **Commit:** All changes to Kubernetes manifests are made in this Git repository.
 2. **Push:** Changes are pushed to the `main` branch.
-3. **Sync:** ArgoCD detects the changes in the repository and automatically applies them to the Kubernetes cluster, ensuring the cluster state matches the Git repository.
+3. **Sync:** Argo CD detects the changes in the repository and automatically applies them to the Kubernetes cluster, ensuring the cluster state matches the Git repository.
 
 ## Core Rules
 
