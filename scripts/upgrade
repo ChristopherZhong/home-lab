@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to upgrade K3s to the latest stable version
+# Script to upgrade K3s to a pinned version
 # Usage: ./upgrade
 
 # set -euo pipefail: Enable strict error handling in the script
@@ -9,7 +9,10 @@
 # -o pipefail: Cause pipelines to fail if any command in the pipeline fails
 set -euo pipefail
 
-echo "Upgrading K3s to the latest stable version..."
+# Pin the K3s installer to a tested release for reproducible upgrades.
+INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-v1.35.0+k3s1}
+
+echo "Upgrading K3s to $INSTALL_K3S_VERSION..."
 
 # Optional: Backup datastore (uncomment if needed)
 # echo "Backing up K3s datastore..."
@@ -18,12 +21,12 @@ echo "Upgrading K3s to the latest stable version..."
 # Stop K3s if necessary (the install script handles restart)
 sudo systemctl stop k3s
 
-# Upgrade to latest stable
+# Upgrade to the pinned release
 # curl --silent --fail --location: Download options for the K3s install script
 # --silent: Silent mode, suppress progress meter and error messages
 # --fail: Fail fast on HTTP errors (4xx/5xx), exit with non-zero status
 # --location: Follow HTTP redirects automatically
-curl --silent --fail --location https://get.k3s.io | sh -
+curl --silent --fail --location https://get.k3s.io | INSTALL_K3S_VERSION="$INSTALL_K3S_VERSION" sh -
 
 # Ensure K3s service is started after upgrade
 sudo systemctl start k3s

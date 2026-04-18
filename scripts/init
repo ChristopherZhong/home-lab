@@ -8,6 +8,9 @@
 # -o pipefail: Cause pipelines to fail if any command in the pipeline fails
 set -euo pipefail
 
+# Pin the K3s installer to a tested release for reproducible setup.
+INSTALL_K3S_VERSION=${INSTALL_K3S_VERSION:-v1.35.0+k3s1}
+
 # Mode: set to "server" (default) or "agent"
 # For agent mode, also set K3S_URL and K3S_TOKEN environment variables
 MODE=${MODE:-server}
@@ -28,7 +31,7 @@ fi
 # --silent: Silent mode, suppress progress meter and error messages
 # --fail: Fail fast on HTTP errors (4xx/5xx), exit with non-zero status
 # --location: Follow HTTP redirects automatically
-curl --silent --fail --location https://get.k3s.io | sh -
+curl --silent --fail --location https://get.k3s.io | INSTALL_K3S_VERSION="$INSTALL_K3S_VERSION" sh -
 
 # Verify installation
 if [ "$MODE" = "server" ]; then

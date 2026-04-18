@@ -155,6 +155,8 @@ The following instructions are for preparing the SSD. We assume that the SD card
 
 [K3s](https://k3s.io/) is chosen for its lightweight nature and excellent ARM64 support.
 
+This repository currently pins K3s to `v1.35.0+k3s1` in the helper scripts for reproducible installs and upgrades.
+
 1. **Enable cgroups**
    K3s needs `cgroups` to be enabled (see https://docs.k3s.io/installation/requirements?os=pi).
    Append `cgroup_memory=1 cgroup_enable=memory` to `/boot/firmware/cmdline.txt` and reboot.
@@ -162,7 +164,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Install K3s**. Follow the Quick-Start [guide](https://docs.k3s.io/quick-start).
    ```shell
    # Install K3s
-   $ curl --silent --fail --location https://get.k3s.io | sh -
+   $ curl --silent --fail --location https://get.k3s.io | INSTALL_K3S_VERSION="v1.35.0+k3s1" sh -
    
    # Verify installation
    $ sudo systemctl status k3s
@@ -178,7 +180,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
 
 1. **Upgrade K3s**. Follow the instructions in this [guide](https://docs.k3s.io/upgrades) to upgrade K3s.
 
-   **Note**: To upgrade K3s to the latest stable version in the future, use the provided script:
+   **Note**: The provided script upgrades to the pinned repository version `v1.35.0+k3s1`:
    ```shell
    $ ./scripts/upgrade
    ```
@@ -205,11 +207,11 @@ The following instructions are for preparing the SSD. We assume that the SD card
 
 ### **Step 3**: Argo CD - Declarative GitOps
 
-Set up Argo CD for GitOps to manage applications declaratively. Use the official installation manifest for the latest stable release. For more details, see the [guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
+Set up Argo CD for GitOps to manage applications declaratively. This repository currently pins Argo CD to `v3.3.0` in the installation script. For more details, see the [guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
 **Note:** The installation script uses server-side apply (`--server-side`) to work around a [known issue](https://github.com/argoproj/argo-cd/issues/10763) with the size of the ApplicationSet CRD.
 
-**Tracked manifest:** The ingress manifest applied by the script is [argocd/argocd-server-ingress.yaml](./argocd/argocd-server-ingress.yaml).
+**Tracked manifest:** The ingress manifest applied by the script is [argocd/argocd-server-ingress.yaml](./argocd/argocd-server-ingress.yaml), and the script resolves it relative to the script location so it works from any current working directory.
 
 ```shell
 # Install Argo CD using the provided script

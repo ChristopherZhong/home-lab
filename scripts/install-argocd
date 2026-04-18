@@ -9,19 +9,27 @@
 # -o pipefail: Cause pipelines to fail if any command in the pipeline fails
 set -euo pipefail
 
+# Pin Argo CD to a tested release for reproducible installs.
+ARGOCD_VERSION=${ARGOCD_VERSION:-v3.3.0}
+
+# Resolve tracked manifests relative to this script so the script works from any current directory.
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+INGRESS_MANIFEST="$REPO_ROOT/argocd/argocd-server-ingress.yaml"
+
 echo "Installing ArgoCD..."
 
 # Create the argocd namespace
 sudo kubectl create namespace argocd
 
 # Apply the official ArgoCD Kubernetes manifest
-# kubectl apply --namespace argocd --filename https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# kubectl apply --namespace argocd --filename https://raw.githubusercontent.com/argoproj/argo-cd/$ARGOCD_VERSION/manifests/install.yaml
 # --namespace: Specify the namespace for the resources
 # --server-side: Use server-side apply to avoid the "metadata.annotations: Too long" error.
 #   The server calculates the patch, which avoids a client-side limitation with large annotations.
 # --force-conflicts: Forces the overwrite of conflicting fields when switching to server-side apply.
 # --filename: Filename or URL of the manifest to apply
-sudo kubectl apply --namespace argocd --server-side --force-conflicts --filename https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+sudo kubectl apply --namespace argocd --server-side --force-conflicts --filename "https://raw.githubusercontent.com/argoproj/argo-cd/$ARGOCD_VERSION/manifests/install.yaml"
 
 # Wait for ArgoCD to be ready
 echo "Waiting for ArgoCD to be ready..."
@@ -37,8 +45,8 @@ sudo kubectl --namespace argocd get secret argocd-initial-admin-secret --output 
 echo ""
 
 # Configure ingress for ArgoCD via Traefik.
-# kubectl apply --filename ../argocd/argocd-server-ingress.yaml
-sudo kubectl apply --filename ../argocd/argocd-server-ingress.yaml
+# kubectl apply --filename "$INGRESS_MANIFEST"
+sudo kubectl apply --filename "$INGRESS_MANIFEST"
 
 # Validate that the ingress is set
 sudo kubectl get ingress --namespace argocd
