@@ -2,6 +2,16 @@
 
 A comprehensive guide to building a production-ready Kubernetes home lab, starting with a single Raspberry Pi 5 and growing incrementally. This project documents the journey of learning Kubernetes while building a well-structured cluster for home use.
 
+## 📁 Current Repository State
+
+The repository currently tracks:
+
+- `argocd/argocd-server-ingress.yaml`: Ingress manifest for exposing `argocd-server` through Traefik
+- `scripts/init`: K3s bootstrap script for server or agent mode
+- `scripts/install-argocd`: Argo CD installation script
+- `scripts/upgrade`: K3s upgrade script
+- `kube-system/`: Reserved for future `kube-system` namespace manifests and currently empty
+
 ## 🎯 Project Goals
 
 - ✅ **Document Home Lab Build**: Step-by-step instructions for building a Kubernetes home lab from scratch
@@ -92,7 +102,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Generate SSH Key Pair** (if you don't have one)
    ```shell
    # On your local machine, generate Ed25519 key (most secure and performant)
-   $ ssh-keygen -t ed25519 -C "you@example.com"
+   $ ssh-keygen --type ed25519 --comment "you@example.com"
    
    # Display your public key to copy into Raspberry Pi Imager
    $ cat ~/.ssh/id_ed25519.pub
@@ -108,13 +118,14 @@ The following instructions are for preparing the SSD. We assume that the SD card
    $ ssh pi@raspberrypi-1.local
    
    # Update the system
-   $ sudo apt update && sudo apt full-upgrade   
+   $ sudo apt update
+   $ sudo apt full-upgrade --yes
    ```
 
 1. **Install Git**
    ```shell
    # Install Git to clone this repository
-   $ sudo apt install git
+   $ sudo apt install --yes git
    ```
 
 1. **Configure Git**. First configure the user name and email.
@@ -135,7 +146,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Install K3s**. Follow the Quick-Start [guide](https://docs.k3s.io/quick-start).
    ```shell
    # Install K3s
-   $ curl -sfL https://get.k3s.io | sh -
+   $ curl --silent --fail --location https://get.k3s.io | sh -
    
    # Verify installation
    $ sudo systemctl status k3s
@@ -159,7 +170,7 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Optional: Configure kubectl for non-root user**
    ```shell
    # Copy kubeconfig to user directory
-   $ mkdir -p ~/.kube
+   $ mkdir --parents ~/.kube
    $ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
    $ sudo chown $USER:$USER ~/.kube/config
    
@@ -182,11 +193,13 @@ Set up Argo CD for GitOps to manage applications declaratively. Use the official
 
 **Note:** The installation script uses server-side apply (`--server-side`) to work around a [known issue](https://github.com/argoproj/argo-cd/issues/10763) with the size of the ApplicationSet CRD.
 
-```shell
-# Install ArgoCD using the provided script
-./scripts/install-argocd
+**Tracked manifest:** The ingress manifest applied by the script is [argocd/argocd-server-ingress.yaml](./argocd/argocd-server-ingress.yaml).
 
-# Access ArgoCD at: https://argocd.raspberrypi-1.local
+```shell
+# Install Argo CD using the provided script
+$ ./scripts/install-argocd
+
+# Access Argo CD at: https://argocd.raspberrypi-1.local
 # Username: admin
 # Password: see the output from the script, or check the `argocd-initial-admin-password` file.
 ```
@@ -267,37 +280,37 @@ kubectl apply -f postgres/k8s.yaml
 ### Cluster Management
 ```shell
 # View all resources across namespaces
-kubectl get all --all-namespaces
+$ kubectl get all --all-namespaces
 
 # Describe a problematic pod
-kubectl describe pod <pod-name> -n <namespace>
+$ kubectl describe pod <pod-name> --namespace <namespace>
 
 # View logs
-kubectl logs <pod-name> -n <namespace> -f
+$ kubectl logs <pod-name> --namespace <namespace> --follow
 
 # Port forward for local access
-kubectl port-forward svc/<service-name> 8080:80 -n <namespace>
+$ kubectl port-forward svc/<service-name> 8080:80 --namespace <namespace>
 
 # Scale deployment
-kubectl scale deployment <deployment-name> --replicas=3 -n <namespace>
+$ kubectl scale deployment <deployment-name> --replicas=3 --namespace <namespace>
 ```
 
 ### Troubleshooting
 ```shell
 # Check node resources
-kubectl top nodes
+$ kubectl top nodes
 
 # Check pod resources
-kubectl top pods --all-namespaces
+$ kubectl top pods --all-namespaces
 
 # View events
-kubectl get events --sort-by=.metadata.creationTimestamp
+$ kubectl get events --sort-by=.metadata.creationTimestamp
 
 # Check cluster info
-kubectl cluster-info
+$ kubectl cluster-info
 
 # Verify K3s status
-sudo systemctl status k3s
+$ sudo systemctl status k3s
 ```
 
 ## 📚 Learning Resources
@@ -324,5 +337,5 @@ This is a learning project! Feel free to:
 
 ---
 
-*Last updated: 2026-02-14*
+*Last updated: 2026-04-18*
 *Cluster Status: Single Node (Raspberry Pi 5)*
