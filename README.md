@@ -8,10 +8,8 @@ The repository currently tracks:
 
 - `argocd/argocd-server-ingress.yaml`: Ingress manifest for exposing `argocd-server` through Traefik
 - `.agents/agents/`: Shared custom agent definitions for this repository
-- `.agents/prompts/`: Reusable prompt templates for documentation, Kubernetes, and onboarding workflows
+- `.agents/prompts/`: Reusable prompt templates for repository workflows, general reusable tasks, and human or agent use
 - `.agents/skills/`: Shared reusable skills in an open-standard style location
-- `.github/copilot-instructions.md`: Thin GitHub Copilot compatibility shim
-- `CLAUDE.md`: Thin Claude compatibility shim that imports `AGENTS.md`
 - `scripts/init`: K3s bootstrap script for server or agent mode
 - `scripts/install-argocd`: Argo CD installation script
 - `scripts/upgrade`: K3s upgrade script
@@ -23,14 +21,12 @@ The repository keeps AI collaboration assets in tool-agnostic locations:
 
 - `AGENTS.md`: Canonical repository-wide agent guidance
 - `.agents/agents/`: Canonical shared custom agents for this repository
-- `.agents/prompts/`: Canonical shared prompts
+- `.agents/prompts/`: Canonical shared prompts for both general reusable use and repository-specific workflows
 - `.agents/skills/`: Canonical shared skills
-- `CLAUDE.md`: Thin compatibility file for Claude-compatible tools
-- `.github/copilot-instructions.md`: Thin compatibility file for GitHub Copilot
 
 Repository note: there is no clear cross-tool standard path for custom agent profile files, so this repository stores them in `.agents/agents/` as a local convention to avoid duplicated copies under tool-specific directories.
 
-Compatibility files stay thin so the shared intent remains centered on `AGENTS.md`, `.agents/agents/`, `.agents/prompts/`, and `.agents/skills/`.
+The repository currently keeps only the canonical shared AI assets and does not maintain vendor-specific compatibility wrappers.
 
 ## 🎯 Project Goals
 
