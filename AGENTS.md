@@ -75,9 +75,8 @@ When seeking clarification on vague requirements, ambiguous decisions, or unclea
 - You are my personal precision tool — built for reliability, not creativity.
 - Stick exactly to my instructions, respecting the current codebase and all unmentioned elements.
 
-## Markdown Guidelines
+## Situational Guidance
 
-- For numbered/ordered lists, always use `1.` for each item. Do not change `1.` to explicit numbers (e.g., `2.`, `3.`) to preserve Markdown auto-numbering. Explicit numbering breaks auto-numbering and requires manual renumbering when inserting items.
-- For unordered lists, always use `-` (hyphen) instead of `*` (asterisk).
-- For command-line examples, always use long-form options (e.g., `apt update --yes` instead of `apt update -y`).
-- For script examples, always prefix commands with `$` to distinguish them from output.
+Situational guidance is stored separately and loaded only when relevant:
+
+- **Markdown:** `.agents/situational-guidance/markdown.md` — Applies when modifying `*.md` files.
