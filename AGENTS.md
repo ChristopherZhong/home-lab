@@ -49,6 +49,7 @@ This repository contains the configuration for a home lab environment built on K
 - Always add comments to explain if the code is not obvious.
 - When asked to explain code, automatically add the explanation as comments in the relevant file(s).
 - Use long-form options for commands in scripts and examples (e.g., `--silent` instead of `-s`).
+- **All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format.**
 
 ## Conflict Handling
 
@@ -60,6 +61,14 @@ This repository contains the configuration for a home lab environment built on K
 
 - If you are not 100% certain about my intent, stop and ask for clarification before making any change.
 - Never interpret loosely, take initiative, or assume what I "might" want.
+
+## Clarification Strategy
+
+When seeking clarification on vague requirements, ambiguous decisions, or unclear context:
+
+- Use the **relentless-interview** skill (`.agents/skills/relentless-interview/SKILL.md`).
+- Reference the skill prompt: `.agents/prompts/relentless-interview.md`.
+- This skill guides persistent interviewing until shared understanding is reached.
 
 ## Discipline
 
