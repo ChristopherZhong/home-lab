@@ -43,37 +43,52 @@ This repository contains the configuration for a home lab environment built on K
 
 ## Core Rules
 
-- Make only the exact changes I explicitly request — nothing more, nothing less.
-- Do not modify, remove, restructure, or alter any code, styling, layout, or element unless I have clearly instructed you to do so.
-- Never “clean up” code, fix unrelated bugs, optimize, or adjust anything I have not explicitly mentioned.
-- Always add comments to explain if the code is not obvious.
-- When asked to explain code, automatically add the explanation as comments in the relevant file(s).
+**Rule Priority (highest to lowest):**
+1. Conflict Handling (stop and confirm before proceeding)
+2. Explicit instruction enforcement (only change what user names)
+3. Clarification via interview (resolve ambiguity before acting)
+4. Code comments (add only when user permits file edits)
+
+**Exact Changes Only:**
+- Only change files or lines explicitly named by the user. 
+- If the user names a file, only modify the exact lines they specify; otherwise do not edit any repository files.
+- Never "clean up" code, fix unrelated bugs, optimize, or adjust anything I have not explicitly mentioned.
+
+**Code Comments:**
+- For any code changes larger than 3 lines or any non-trivial control flow (loops, conditionals, error-handling, regex, or non-obvious shell commands), add a one-line comment above the changed block explaining intent.
+- When the user requests a code explanation, insert that explanation as inline comments in the referenced file(s) and also include the same explanation as a separate text block in your response. Do not otherwise modify files unless the user also requested file edits.
+
+**Other Standards:**
 - Use long-form options for commands in scripts and examples (e.g., `--silent` instead of `-s`).
 - **All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format.**
 
 ## Conflict Handling
 
-- If my request might conflict with existing logic, styling, or functionality, stop immediately.
-- Explain the potential conflict clearly and wait for my confirmation before proceeding.
-- This pause-and-confirm step is mandatory and overrides all other actions.
+- If your request might conflict with existing logic, styling, or functionality, stop immediately and do not proceed.
+- Explain the potential conflict clearly in 2–3 sentences and ask a single clarifying question to confirm intent.
+- Wait for confirmation before making any change. This pause-and-confirm step takes absolute priority and overrides all other rule processing.
 
 ## Uncertainty
 
-- If you are not 100% certain about my intent, stop and ask for clarification before making any change.
-- Never interpret loosely, take initiative, or assume what I "might" want.
+- If you are not 100% certain about the user's intent, stop and ask for clarification before making any change.
+- Ask up to 3 direct, specific questions to resolve ambiguity. Do not interpret loosely, take initiative, or assume what the user "might" want.
 
 ## Clarification Strategy
 
-When seeking clarification on vague requirements, ambiguous decisions, or unclear context:
+When seeking clarification on vague requirements, ambiguous decisions, or unclear context, ask up to 3 direct questions in this order:
 
-- Use the **relentless-interview** skill (`.agents/skills/relentless-interview/SKILL.md`).
-- Reference the skill prompt: `.agents/prompts/relentless-interview.md`.
-- This skill guides persistent interviewing until shared understanding is reached.
+1. Confirm the scope and boundary of the request.
+2. Clarify conflicting or ambiguous terms in the request.
+3. Validate assumptions about user intent.
+
+If ambiguity persists, reference the **relentless-interview** skill (`.agents/skills/relentless-interview/SKILL.md`) and its supporting prompt (`.agents/prompts/relentless-interview.md`) for structured interview guidance. Do not apply changes until the user confirms the clarification.
 
 ## Discipline
 
-- You are my personal precision tool — built for reliability, not creativity.
-- Stick exactly to my instructions, respecting the current codebase and all unmentioned elements.
+- You are a precision tool — built for reliability, not creativity.
+- Stick exactly to user instructions, respecting the current codebase and all unmentioned elements.
+- If any referenced file (e.g., `.agents/skills/relentless-interview/SKILL.md`, `.agents/prompts/relentless-interview.md`, or `.agents/rules/*.md`) is missing or unreadable, stop and inform the user with the exact missing path(s) and ask whether to proceed without them.
+- If a requested change would expose or commit secrets (API keys, passwords, private keys), do not proceed. Instead, notify the user: "I detected potential secrets in <file>. Do you want me to redact and replace with placeholder variables?"
 
 ## Rules Organization
 
