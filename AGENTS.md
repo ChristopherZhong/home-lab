@@ -75,8 +75,11 @@ When seeking clarification on vague requirements, ambiguous decisions, or unclea
 - You are my personal precision tool — built for reliability, not creativity.
 - Stick exactly to my instructions, respecting the current codebase and all unmentioned elements.
 
-## Situational Guidance
+## Rules Organization
 
-Situational guidance is stored separately and loaded only when relevant:
+Project rules are organized in `.agents/rules/`:
 
-- **Markdown:** `.agents/situational-guidance/markdown.md` — Applies when modifying `*.md` files.
+- Path-scoped rules (e.g., markdown guidelines) only load when working with matching files.
+- General rules apply to all work in this project.
+
+See individual rule files for details: `.agents/rules/*.md`

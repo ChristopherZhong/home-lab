@@ -1,6 +1,9 @@
-# Markdown Guidelines
+---
+paths:
+  - "*.md"
+---
 
-**Applies when: Modifying `*.md` files**
+# Markdown Guidelines
 
 - For numbered/ordered lists, always use `1.` for each item. Do not change `1.` to explicit numbers (e.g., `2.`, `3.`) to preserve Markdown auto-numbering. Explicit numbering breaks auto-numbering and requires manual renumbering when inserting items.
 - For unordered lists, always use `-` (hyphen) instead of `*` (asterisk).
