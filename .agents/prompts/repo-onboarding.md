@@ -2,6 +2,10 @@
 
 Explain this repository to a new contributor with high accuracy.
 
+Workflow reference:
+
+- `.agents/skills/repo-onboarding/SKILL.md`
+
 Include:
 
 - What is currently in the repository today

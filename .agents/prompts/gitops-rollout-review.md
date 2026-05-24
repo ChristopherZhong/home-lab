@@ -6,7 +6,7 @@ Workflow reference:
 
 - `.agents/skills/kubernetes-gitops-review/SKILL.md`
 
-Check:
+Focus on:
 
 - Whether the manifest paths and namespaces match the repository
 - Whether scripts and manifests still agree with each other

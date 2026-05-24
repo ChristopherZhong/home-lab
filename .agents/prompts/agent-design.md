@@ -2,6 +2,10 @@
 
 Design a new reusable AI agent for this repository.
 
+Workflow reference:
+
+- `.agents/skills/agent-design/SKILL.md`
+
 Requirements:
 
 - Keep the definition tool-agnostic and store the canonical version in `.agents/agents/`.
