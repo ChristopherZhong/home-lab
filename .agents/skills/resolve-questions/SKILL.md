@@ -1,5 +1,5 @@
 ---
-name: question-resolution
+name: resolve-questions
 description: Use when QUESTIONS.md or SUGGESTIONS.md contains explicit answers or accepted decisions that should be applied to repository files and removed from the open backlog.
 ---
 

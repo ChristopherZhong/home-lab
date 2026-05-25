@@ -1,5 +1,5 @@
 ---
-name: kubernetes-gitops-review
+name: review-manifests
 description: Use when reviewing or preparing Kubernetes and Argo CD changes in this repository, especially when manifests, namespaces, ingress, or GitOps workflow documentation may need to change together.
 ---
 

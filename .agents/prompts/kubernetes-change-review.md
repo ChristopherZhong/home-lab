@@ -4,7 +4,7 @@ Review a proposed Kubernetes change for this home lab repository.
 
 Workflow reference:
 
-- `.agents/skills/kubernetes-gitops-review/SKILL.md`
+- `.agents/skills/review-manifests/SKILL.md`
 
 Focus on:
 

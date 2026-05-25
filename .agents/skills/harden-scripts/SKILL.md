@@ -1,5 +1,5 @@
 ---
-name: k3s-shell-safety
+name: harden-scripts
 description: Use when reviewing or editing the repository shell scripts so bootstrap, install, and upgrade flows stay clear, safe, and aligned with the documented home lab workflow.
 ---
 

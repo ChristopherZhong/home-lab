@@ -1,5 +1,5 @@
 ---
-name: home-lab-doc-sync
+name: sync-docs
 description: Use when updating or reviewing documentation in this repository so README, AGENTS, prompts, suggestions, and questions stay consistent with the actual files and workflows.
 ---
 

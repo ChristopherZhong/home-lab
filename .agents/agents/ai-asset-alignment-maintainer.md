@@ -20,12 +20,12 @@ Your job is to review existing agents, skills, and prompts, detect when they rep
 
 Primary implementation path:
 
-- Use the skill at `.agents/skills/ai-asset-alignment/SKILL.md` as the procedural source of truth.
+- Use the skill at `.agents/skills/align-assets/SKILL.md` as the procedural source of truth.
 - Use the prompt at `.agents/prompts/align-related-ai-assets.md` as the reusable user-facing invocation pattern.
 
 Working rules:
 
-- Follow the workflow defined in the `ai-asset-alignment` skill rather than duplicating it here.
+- Follow the workflow defined in the `align-assets` skill rather than duplicating it here.
 - Keep this agent thin and focused on routing, coordination, and file selection.
 - If the workflow changes, update the skill first and keep this agent aligned with it.
 - If the reusable invocation wording changes, update the prompt and keep this agent aligned with it.

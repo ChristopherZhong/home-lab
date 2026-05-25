@@ -4,7 +4,7 @@ Review this repository as a documentation auditor.
 
 Workflow reference:
 
-- `.agents/skills/home-lab-doc-sync/SKILL.md`
+- `.agents/skills/sync-docs/SKILL.md`
 
 Goals:
 

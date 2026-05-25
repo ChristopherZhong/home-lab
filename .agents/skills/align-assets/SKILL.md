@@ -1,5 +1,5 @@
 ---
-name: ai-asset-alignment
+name: align-assets
 description: Use when reviewing existing agents, skills, and prompts so related workflow assets can be linked together, deduplicated, and kept consistent.
 ---
 

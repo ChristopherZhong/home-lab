@@ -4,7 +4,7 @@ Review `QUESTIONS.md` and `SUGGESTIONS.md` and resolve any items that already ha
 
 Workflow reference:
 
-- `.agents/skills/question-resolution/SKILL.md`
+- `.agents/skills/resolve-questions/SKILL.md`
 
 Requirements:
 

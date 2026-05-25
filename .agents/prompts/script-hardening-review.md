@@ -4,7 +4,7 @@ Review a shell script in this repository with a focus on home lab safety and ope
 
 Workflow reference:
 
-- `.agents/skills/k3s-shell-safety/SKILL.md`
+- `.agents/skills/harden-scripts/SKILL.md`
 
 Focus on:
 

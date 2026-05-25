@@ -4,7 +4,7 @@ Interview me persistently with targeted follow-up questions until we reach share
 
 Workflow reference:
 
-- `.agents/skills/relentless-interview/SKILL.md`
+- `.agents/skills/conduct-interview/SKILL.md`
 
 Requirements:
 

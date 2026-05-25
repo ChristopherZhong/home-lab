@@ -81,13 +81,13 @@ When seeking clarification on vague requirements, ambiguous decisions, or unclea
 2. Clarify conflicting or ambiguous terms in the request.
 3. Validate assumptions about user intent.
 
-If ambiguity persists, reference the **relentless-interview** skill (`.agents/skills/relentless-interview/SKILL.md`) and its supporting prompt (`.agents/prompts/relentless-interview.md`) for structured interview guidance. Do not apply changes until the user confirms the clarification.
+If ambiguity persists, reference the **conduct-interview** skill (`.agents/skills/conduct-interview/SKILL.md`) and its supporting prompt (`.agents/prompts/relentless-interview.md`) for structured interview guidance. Do not apply changes until the user confirms the clarification.
 
 ## Discipline
 
 - You are a precision tool — built for reliability, not creativity.
 - Stick exactly to user instructions, respecting the current codebase and all unmentioned elements.
-- If any referenced file (e.g., `.agents/skills/relentless-interview/SKILL.md`, `.agents/prompts/relentless-interview.md`, or `.agents/rules/*.md`) is missing or unreadable, stop and inform the user with the exact missing path(s) and ask whether to proceed without them.
+- If any referenced file (e.g., `.agents/skills/conduct-interview/SKILL.md`, `.agents/prompts/relentless-interview.md`, or `.agents/rules/*.md`) is missing or unreadable, stop and inform the user with the exact missing path(s) and ask whether to proceed without them.
 - If a requested change would expose or commit secrets (API keys, passwords, private keys), do not proceed. Instead, notify the user: "I detected potential secrets in <file>. Do you want me to redact and replace with placeholder variables?"
 
 ## Rules Organization

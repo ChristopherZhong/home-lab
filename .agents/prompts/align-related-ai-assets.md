@@ -4,7 +4,7 @@ Review the existing agents, skills, and prompts in this repository and look for 
 
 Workflow reference:
 
-- `.agents/skills/ai-asset-alignment/SKILL.md`
+- `.agents/skills/align-assets/SKILL.md`
 
 Requirements:
 

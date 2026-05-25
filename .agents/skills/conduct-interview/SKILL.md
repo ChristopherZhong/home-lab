@@ -1,5 +1,5 @@
 ---
-name: relentless-interview
+name: conduct-interview
 description: Interview the user persistently with targeted, follow-up questions until reaching shared understanding of a topic, requirement, or decision.
 ---
 

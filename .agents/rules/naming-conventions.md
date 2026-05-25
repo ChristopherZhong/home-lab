@@ -43,7 +43,7 @@ Agents use the `<workflow>-<actor>` pattern:
 **Examples:**
 - ✅ `gitops-change-reviewer.md` — Reviews GitOps changes
 - ✅ `docs-auditor.md` — Audits documentation
-- ✅ `question-resolution-maintainer.md` — Maintains question resolutions
+- ✅ `resolve-questions-maintainer.md` → Maintains question resolutions
 
 **Actor guidelines:**
 - Use role descriptors: `-reviewer`, `-auditor`, `-maintainer`, `-designer`, `-creator`
@@ -64,7 +64,7 @@ Prompts follow the same pattern as their linked skill or agent:
 **Examples:**
 - `review-prompt.md` → Links to skill `review-prompt`
 - `agent-design.md` → Links to skill `design-agent`
-- `align-related-ai-assets.md` → Links to skill `ai-asset-alignment`
+- `align-related-ai-assets.md` → Links to skill `align-assets`
 
 **Pattern:**
 ```
@@ -88,11 +88,24 @@ Workflow reference:
 
 | Asset Type | Name | Pattern | Purpose |
 |-----------|------|---------|---------|
+| **Skill** | `align-assets` | `<verb>-<noun>` | Align related AI assets |
+| **Skill** | `conduct-interview` | `<verb>-<noun>` | Conduct structured interviews |
 | **Skill** | `design-agent` | `<verb>-<noun>` | Design new agents |
-| **Skill** | `review-prompt` | `<verb>-<noun>` | Review prompts |
+| **Skill** | `harden-scripts` | `<verb>-<noun>` | Review and harden shell scripts |
 | **Skill** | `onboard-contributor` | `<verb>-<noun>` | Onboard contributors |
-| **Agent** | `gitops-change-reviewer.md` | `<workflow>-<actor>` | Review infrastructure changes |
+| **Skill** | `resolve-questions` | `<verb>-<noun>` | Resolve open questions |
+| **Skill** | `review-manifests` | `<verb>-<noun>` | Review Kubernetes manifests |
+| **Skill** | `review-prompt` | `<verb>-<noun>` | Review reusable prompts |
+| **Skill** | `sync-docs` | `<verb>-<noun>` | Synchronize documentation |
+| **Agent** | `ai-asset-alignment-maintainer.md` | `<workflow>-<actor>` | Maintain AI asset alignment |
 | **Agent** | `docs-auditor.md` | `<workflow>-<actor>` | Audit documentation |
-| **Prompt** | `design-agent.md` | Mirrors skill name | Design new agents (prompt form) |
-| **Prompt** | `review-prompt.md` | Mirrors skill name | Review prompts (prompt form) |
-| **Prompt** | `kubernetes-change-review.md` | Descriptive phrase | Kubernetes-specific review |
+| **Agent** | `gitops-change-reviewer.md` | `<workflow>-<actor>` | Review infrastructure changes |
+| **Agent** | `k3s-script-reviewer.md` | `<workflow>-<actor>` | Review K3s scripts |
+| **Agent** | `question-resolution-maintainer.md` | `<workflow>-<actor>` | Maintain question resolutions |
+| **Prompt** | `align-related-ai-assets.md` | Descriptive phrase | Align related AI assets |
+| **Prompt** | `design-agent.md` | Mirrors skill name | Design new agents |
+| **Prompt** | `documentation-review.md` | Descriptive phrase | Review documentation |
+| **Prompt** | `kubernetes-change-review.md` | Descriptive phrase | Review Kubernetes changes |
+| **Prompt** | `relentless-interview.md` | Mirrors skill name (user-facing) | Conduct persistent interviews |
+| **Prompt** | `review-prompt.md` | Mirrors skill name | Review reusable prompts |
+| **Prompt** | `script-hardening-review.md` | Descriptive phrase | Review script safety |
