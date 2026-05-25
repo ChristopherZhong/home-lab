@@ -94,7 +94,10 @@ If ambiguity persists, reference the **relentless-interview** skill (`.agents/sk
 
 Project rules are organized in `.agents/rules/`:
 
+- **`.agents/rules/naming-conventions.md`**: Standardized naming patterns for skills, agents, and prompts.
+- **`.agents/rules/git-workflow.md`**: Git workflow guidelines.
+- **`.agents/rules/markdown.md`**: Markdown style conventions.
 - Path-scoped rules (e.g., markdown guidelines) only load when working with matching files.
 - General rules apply to all work in this project.
 
-See individual rule files for details: `.agents/rules/*.md`
+See individual rule files for details.
