@@ -59,7 +59,7 @@ This repository contains the configuration for a home lab environment built on K
 - When the user requests a code explanation, insert that explanation as inline comments in the referenced file(s) and also include the same explanation as a separate text block in your response. Do not otherwise modify files unless the user also requested file edits.
 
 **Other Standards:**
-- Use long-form options for commands in scripts and examples (e.g., `--silent` instead of `-s`).
+- Use long-form options for commands in scripts and examples (see `.agents/rules/shell-commands.md`).
 - **All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format.**
 
 ## Conflict Handling
@@ -94,6 +94,7 @@ If ambiguity persists, reference the **conduct-interview** skill (`.agents/skill
 
 Project rules are organized in `.agents/rules/`:
 
+- **`.agents/rules/shell-commands.md`**: Shell and CLI command standards (use long-form options).
 - **`.agents/rules/naming-conventions.md`**: Standardized naming patterns for skills, agents, and prompts.
 - **`.agents/rules/git-workflow.md`**: Git workflow guidelines.
 - **`.agents/rules/markdown.md`**: Markdown style conventions.
