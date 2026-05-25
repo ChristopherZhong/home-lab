@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: home-lab-apps
+  namespace: argocd
+spec:
+  generators:
+    # Use Git generator to scan repository directories
+    - git:
+        repoURL: https://github.com/ChristopherZhong/home-lab.git
+        revision: main
+        directories:
+          - path: 'apps/*'
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/ChristopherZhong/home-lab.git
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
