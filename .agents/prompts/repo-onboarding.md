@@ -4,7 +4,7 @@ Explain this repository to a new contributor with high accuracy.
 
 Workflow reference:
 
-- `.agents/skills/repo-onboarding/SKILL.md`
+- `.agents/skills/onboard-contributor/SKILL.md`
 
 Include:
 

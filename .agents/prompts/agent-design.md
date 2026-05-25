@@ -4,7 +4,7 @@ Design a new reusable AI agent for this repository.
 
 Workflow reference:
 
-- `.agents/skills/agent-design/SKILL.md`
+- `.agents/skills/design-agent/SKILL.md`
 
 Requirements:
 
