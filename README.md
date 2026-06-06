@@ -207,7 +207,11 @@ This repository currently pins K3s to `v1.35.0+k3s1` in the helper scripts for r
 
 ### **Step 3**: Argo CD - Declarative GitOps
 
-Set up Argo CD for GitOps to manage applications declaratively. This repository currently pins Argo CD to `v3.3.0` in the installation script. For more details, see the [guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
+Set up Argo CD for GitOps to manage applications declaratively. This repository currently pins Argo CD to `v3.3.0` in the installation script.
+
+For full setup and post-install configuration, see the repository guide in [`argocd/README.md`](./argocd/README.md).
+
+For more upstream details, see the [official Argo CD getting started guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
 **Note:** The installation script uses server-side apply (`--server-side`) to work around a [known issue](https://github.com/argoproj/argo-cd/issues/10763) with the size of the ApplicationSet CRD.
 
