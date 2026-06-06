@@ -20,7 +20,7 @@ Use the Kubernetes change review prompt as the default invocation for this workf
 - `kube-system/`
 - `scripts/install-argocd`
 - `README.md`
-- `AGENTS.md`
+- See `AGENTS.md` for repository-wide guidance.
 
 ## Workflow
 

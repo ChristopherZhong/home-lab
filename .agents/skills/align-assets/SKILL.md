@@ -18,7 +18,7 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 - `.agents/agents/`
 - `.agents/prompts/`
 - `.agents/skills/`
-- `AGENTS.md`
+- See `AGENTS.md` for repository-wide guidance.
 - `README.md`
 
 ## Workflow

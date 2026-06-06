@@ -17,16 +17,9 @@ The repository currently tracks:
 
 ## 🤖 AI Assets
 
-The repository keeps AI collaboration assets in tool-agnostic locations:
-
-- `AGENTS.md`: Canonical repository-wide agent guidance
-- `.agents/agents/`: Canonical shared custom agents for this repository
-- `.agents/prompts/`: Canonical shared prompts for both general reusable use and repository-specific workflows
-- `.agents/skills/`: Canonical shared skills
-
-Repository note: there is no clear cross-tool standard path for custom agent profile files, so this repository stores them in `.agents/agents/` as a local convention to avoid duplicated copies under tool-specific directories.
-
-The repository currently keeps only the canonical shared AI assets and does not maintain vendor-specific compatibility wrappers.
+This repository stores canonical AI assets under `.agents/`. See
+`AGENTS.md` for repository-wide guidance and the canonical locations for
+agents, prompts, and skills.
 
 ## 🎯 Project Goals
 
@@ -207,24 +200,11 @@ This repository currently pins K3s to `v1.35.0+k3s1` in the helper scripts for r
 
 ### **Step 3**: Argo CD - Declarative GitOps
 
-Set up Argo CD for GitOps to manage applications declaratively. This repository currently pins Argo CD to `v3.4.2` in the installation script.
+Argo CD setup and operational guidance are maintained in a dedicated guide:
+see `argocd/README.md` for full installation and configuration steps.
 
-For full setup and post-install configuration, see the repository guide in [`argocd/README.md`](./argocd/README.md).
-
-For more upstream details, see the [official Argo CD getting started guide](https://argo-cd.readthedocs.io/en/stable/getting_started/).
-
-**Note:** The installation script uses server-side apply (`--server-side`) to work around a [known issue](https://github.com/argoproj/argo-cd/issues/10763) with the size of the ApplicationSet CRD.
-
-**Tracked manifest:** The ingress manifest applied by the script is [argocd/argocd-server-ingress.yaml](./argocd/argocd-server-ingress.yaml), and the script resolves it relative to the script location so it works from any current working directory.
-
-```shell
-# Install Argo CD using the provided script
-$ ./scripts/install-argocd
-
-# Access Argo CD at: https://argocd.raspberrypi-1.local
-# Username: admin
-# Password: see the output from the script, or check the `argocd-initial-admin-password` file.
-```
+Use `./scripts/install-argocd` to install the pinned Argo CD version and see
+`argocd/argocd-server-ingress.yaml` for the tracked ingress manifest.
 
 ### (*Optional*) **Step 4**: Install Helm
 

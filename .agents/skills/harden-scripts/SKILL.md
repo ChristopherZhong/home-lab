@@ -17,7 +17,7 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 - `scripts/`
 - `README.md`
-- `AGENTS.md`
+- See `AGENTS.md` for repository-wide guidance.
 
 ## Workflow
 

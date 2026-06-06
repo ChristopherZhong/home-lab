@@ -17,11 +17,12 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 - `QUESTIONS.md`
 - `README.md`
-- `AGENTS.md`
 - `SUGGESTIONS.md`
 - `.agents/agents/`
 - `.agents/prompts/`
 - `.agents/skills/`
+
+See `AGENTS.md` for repository-wide guidance.
 
 ## Workflow
 

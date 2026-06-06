@@ -38,29 +38,25 @@ This repository contains the configuration for a home lab environment built on K
 - Store shared custom agents in `.agents/agents/`.
 - Store shared reusable prompts in `.agents/prompts/`.
 - Store shared reusable skills in `.agents/skills/`.
+- Store long-term learnings and session artifacts in the `.harness/` directory
+  so agents can consult repository-specific lessons and recommendations.
 - Do not maintain vendor-specific compatibility layers unless explicitly requested later.
 - Note that `.agents/agents/` is a repository convention, not a widely adopted cross-tool standard.
 
 ## Core Rules
 
-**Rule Priority (highest to lowest):**
-1. Conflict Handling (stop and confirm before proceeding)
-2. Explicit instruction enforcement (only change what user names)
-3. Clarification via interview (resolve ambiguity before acting)
-4. Code comments (add only when user permits file edits)
+This repository centralizes agent and contributor rules in the `.agents/rules/`
+directory. Refer to these canonical rule files rather than duplicating rules
+here:
 
-**Exact Changes Only:**
-- Only change files or lines explicitly named by the user. 
-- If the user names a file, only modify the exact lines they specify; otherwise do not edit any repository files.
-- Never "clean up" code, fix unrelated bugs, optimize, or adjust anything I have not explicitly mentioned.
+- `.agents/rules/agent-behavior.md` — repository-wide agent behavior and
+  process rules (check-first, ask-before-act, verify-after-edit, etc.)
+- `.agents/rules/git-workflow.md` — git commit and workflow conventions
+- `.agents/rules/shell-commands.md`, `.agents/rules/markdown.md`, and
+  `.agents/rules/naming-conventions.md` — shell, markdown, and naming standards
 
-**Code Comments:**
-- For any code changes larger than 3 lines or any non-trivial control flow (loops, conditionals, error-handling, regex, or non-obvious shell commands), add a one-line comment above the changed block explaining intent.
-- When the user requests a code explanation, insert that explanation as inline comments in the referenced file(s) and also include the same explanation as a separate text block in your response. Do not otherwise modify files unless the user also requested file edits.
-
-**Other Standards:**
-- Use long-form options for commands in scripts and examples (see `.agents/rules/shell-commands.md`).
-- **All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format.**
+Keep `AGENTS.md` as an index and high-level guidance; do not duplicate the
+detailed rules contained in the files above.
 
 ## Conflict Handling
 

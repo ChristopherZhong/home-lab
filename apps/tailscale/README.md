@@ -5,6 +5,9 @@ Operator via Argo CD using the static upstream manifest (recommended for this
 repo). Do not commit any Tailscale auth keys or other secrets to Git — see
 the `Secrets` section below.
 
+See long-term learnings and guidance for this operator at
+`.harness/tailscale-learnings.md`.
+
 What is here
 - `kustomization.yaml` — Kustomize overlay referencing the raw upstream operator manifest.
 - `remove-operator-oauth-secret.yaml` — strategic-merge patch that deletes the

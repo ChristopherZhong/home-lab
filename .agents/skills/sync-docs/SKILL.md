@@ -16,8 +16,8 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 ## Inputs to inspect
 
 - `README.md`
-- `AGENTS.md`
 - `QUESTIONS.md`
+- See `AGENTS.md` for repository-wide guidance.
 - `SUGGESTIONS.md`
 - `.agents/prompts/`
 - The files or directories being documented
