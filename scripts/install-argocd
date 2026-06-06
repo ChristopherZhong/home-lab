@@ -10,7 +10,7 @@
 set -euo pipefail
 
 # Pin Argo CD to a tested release for reproducible installs.
-ARGOCD_VERSION=${ARGOCD_VERSION:-v3.3.0}
+ARGOCD_VERSION=${ARGOCD_VERSION:-v3.4.2}
 
 # Resolve tracked manifests relative to this script so the script works from any current directory.
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
