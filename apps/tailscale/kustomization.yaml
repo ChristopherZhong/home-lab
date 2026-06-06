@@ -5,4 +5,9 @@ namespace: tailscale
 # Reference the Tailscale operator manifests as a remote base. Argo CD will run
 # kustomize and fetch the resources from the upstream repository when syncing.
 resources:
-  - github.com/tailscale/tailscale//manifests/operator?ref=main
+  - https://raw.githubusercontent.com/tailscale/tailscale/main/cmd/k8s-operator/deploy/manifests/operator.yaml
+
+# Remove the upstream `operator-oauth` Secret so we don't commit or apply it from Git.
+# Secret should be injected out-of-band (CI/manual) into the cluster.
+patchesStrategicMerge:
+  - remove-operator-oauth-secret.yaml

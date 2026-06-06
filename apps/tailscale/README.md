@@ -1,47 +1,70 @@
 # Tailscale Kubernetes Operator (install assets)
 
 This folder contains the Git-manifest layout to install the Tailscale Kubernetes
-Operator via Argo CD. Do not commit any Tailscale auth keys or other secrets to
-Git — see the `Secrets` section below.
+Operator via Argo CD using the static upstream manifest (recommended for this
+repo). Do not commit any Tailscale auth keys or other secrets to Git — see
+the `Secrets` section below.
 
 What is here
-- `kustomization.yaml` — Kustomize overlay that references the upstream operator manifests.
+- `kustomization.yaml` — Kustomize overlay referencing the raw upstream operator manifest.
+- `remove-operator-oauth-secret.yaml` — strategic-merge patch that deletes the
+  placeholder `operator-oauth` Secret from the upstream manifest at build time.
+- `scripts/create-tailscale-secret` — helper script to create the `operator-oauth` Secret
+  out-of-band (keeps secrets out of Git).
 
 How this is applied
 - The repository contains an `ApplicationSet` (argocd/application-set.yaml) that
   auto-creates one `Application` per `apps/<name>` directory. The ApplicationSet
-  is configured to `CreateNamespace=true`, so generated Applications will create
-  the `tailscale` namespace when they sync.
+  is configured to `CreateNamespace=true`, so generated Applications create the
+  `tailscale` namespace when they sync.
+
+Install method
+- This layout uses the static upstream manifest (`operator.yaml`) referenced from
+  `kustomization.yaml`. For predictable installs, pin the raw manifest to a tag
+  or commit SHA instead of `main`.
 
 CRDs and RBAC ordering
-- The operator installs CRDs and may require cluster-scoped RBAC. If the
-  operator's CustomResources (CRs) are applied before the CRDs exist, syncs
-  will fail. Recommended approaches:
-  - Create a separate `crds/` bootstrap app (or pre-apply CRDs) so CRDs exist
-    before the operator's CRs are created.
-  - Allow Argo CD to manage cluster-scoped resources by granting the Project
-    appropriate permissions, but test this in staging first.
+- The upstream manifest includes CRDs and cluster-scoped RBAC. The manifest
+  places CRDs at the top, but CRDs must reach the `Established` condition
+  before CustomResources (CRs) are accepted by the API server. This repository
+  does not include a bootstrap `crds/` Application — apply CRDs out-of-band
+  (manually or via your provisioning pipeline) if you observe CR-related
+  errors during sync.
 
 Secrets
-- Do not store `TS_AUTHKEY` in Git. Create the secret out-of-band on the
-  cluster (an example you can run locally):
+- The operator expects a Secret named `operator-oauth` containing `client_id`
+  and `client_secret`. This repository intentionally removes the placeholder
+  `operator-oauth` Secret from the upstream manifest (see
+  `remove-operator-oauth-secret.yaml`) so that no secret material is ever
+  applied from Git.
+
+Before creating the `operator-oauth` Secret, follow the upstream guide to
+configure tags and OAuth credentials (these steps must be completed prior to
+applying the operator manifest):
+
+https://tailscale.com/docs/kubernetes-operator/install-operator#configure-tags-and-oauth-credentials
+
+Supply the real secret out-of-band using one of these options:
+- Script (recommended for local workflows): run the included script before
+  pushing or deploying:
 
 ```bash
-kubectl create namespace tailscale
-kubectl create secret generic tailscale-auth \
-  --from-literal=TS_AUTHKEY=tskey-0123456789abcdef \
-  --namespace=tailscale
+# Non-interactive via environment variables
+TS_CLIENT_ID=... TS_CLIENT_SECRET=... scripts/create-tailscale-secret
+
+# Pass as flags
+scripts/create-tailscale-secret --client-id your-id --client-secret your-secret
 ```
 
-- Recommended production approaches:
-  - Use ExternalSecrets or SealedSecrets so values are injected at deploy time.
-  - Store secrets in your CI/CD secret store and create cluster secrets during
-    CI/CD runs (never commit plaintext secrets).
+- CI-injected secret: have your CI create the Secret in the cluster before
+  triggering Argo CD sync (suitable for automated pipelines).
+- ExternalSecrets / SealedSecrets: use if you prefer controller-based secret
+  injection or encrypted repo-backed secrets (not used here by default).
 
 Notes and safety
 - Test operator installation in a staging cluster before production.
-- Ensure your Argo CD Project permits any required cluster-scoped resources or
-  pre-apply them via a bootstrap `Application`.
+- Do not commit plaintext secrets or sealed objects unless you accept that
+  encrypted secrets are stored in Git.
 
 References
 - https://tailscale.com/docs/kubernetes-operator/
