@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+print_help() {
+  cat <<EOF
+Usage: $0 [--file PATH] [--namespace NAMESPACE]
+
+Apply the Argo CD ApplicationSet manifest into the cluster.
+
+Options:
+  --file       Path to the ApplicationSet manifest (default: argocd/application-set.yaml)
+  --namespace  Kubernetes namespace for Argo CD (default: argocd)
+  -h, --help   Show this help and exit
+EOF
+}
+
+FILE="argocd/application-set.yaml"
+NAMESPACE="argocd"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --file)
+      FILE="$2"; shift 2;;
+    --namespace)
+      NAMESPACE="$2"; shift 2;;
+    -h|--help)
+      print_help; exit 0;;
+    *)
+      echo "Unknown argument: $1" >&2; print_help; exit 2;;
+  esac
+done
+
+if ! command -v kubectl >/dev/null 2>&1; then
+  echo "kubectl not found in PATH" >&2
+  exit 3
+fi
+
+echo "Applying ApplicationSet '${FILE}' to namespace '${NAMESPACE}'..."
+kubectl --namespace "${NAMESPACE}" apply --filename "${FILE}"
+echo "Done. To list generated Applications run: sudo kubectl --namespace ${NAMESPACE} get applications"
+
+exit 0

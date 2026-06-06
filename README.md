@@ -206,6 +206,74 @@ see `argocd/README.md` for full installation and configuration steps.
 Use `./scripts/install-argocd` to install the pinned Argo CD version and see
 `argocd/argocd-server-ingress.yaml` for the tracked ingress manifest.
 
+**Bootstrapping Applications**
+
+If you connected this Git repository to Argo CD, Argo CD can read the repo, but
+it will not create `Application` or `ApplicationSet` Kubernetes resources in the
+cluster by itself. To instruct Argo CD to manage the `apps/*` directories you
+must apply an `ApplicationSet` (or an `Application`) resource into the cluster
+so the Argo CD controllers can generate and sync Applications.
+
+To apply the provided `ApplicationSet` manifest (recommended):
+
+```bash
+sudo kubectl --namespace argocd apply --filename argocd/application-set.yaml
+```
+
+After applying, Argo CD will create one `Application` per directory under
+`apps/*`. You can verify generated Applications with:
+
+```bash
+sudo kubectl --namespace argocd get applications
+sudo kubectl --namespace argocd get applicationsets
+```
+
+If you prefer an "app-of-apps" bootstrap approach, apply a single Argo CD
+`Application` that points at the `argocd/` path. Argo CD will then sync the
+`ApplicationSet` manifest from Git and create the per-app `Application` objects:
+
+```bash
+sudo kubectl --namespace argocd apply --filename - <<'EOF'
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+   name: bootstrap-argocd
+   namespace: argocd
+spec:
+   project: default
+   source:
+      repoURL: https://github.com/ChristopherZhong/home-lab.git
+      targetRevision: main
+      path: argocd
+   destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+   syncPolicy:
+      automated:
+         prune: true
+         selfHeal: true
+EOF
+```
+
+Secrets: do NOT commit plaintext credentials. Use one of the options below:
+- CI secret injection (recommended for CI/CD pipelines)
+- ExternalSecrets controllers (e.g. ExternalSecrets, SealedSecrets)
+- Local out-of-band script: run `./scripts/create-tailscale-secret` and provide
+   `--client-id` and `--client-secret` via environment variables or flags. Example:
+
+```bash
+# interactive (prompts for values)
+sudo ./scripts/create-tailscale-secret
+
+# non-interactive (use environment variables)
+sudo TS_CLIENT_ID="<id>" TS_CLIENT_SECRET="<secret>" \
+   ./scripts/create-tailscale-secret --namespace tailscale
+```
+
+See `apps/tailscale/README.md` for operator-specific notes and `.harness/`
+for long-term learnings.
+
+
 ### (*Optional*) **Step 4**: Install Helm
 
 ```shell
