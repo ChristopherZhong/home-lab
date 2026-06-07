@@ -1,0 +1,28 @@
+{
+  "name": "home-lab",
+  "version": "1.0.0",
+  "description": "A comprehensive guide to building a production-ready Kubernetes home lab, starting with a single Raspberry Pi 5 and growing incrementally. This project documents the journey of learning Kubernetes while building a well-structured cluster for home use.",
+  "homepage": "https://github.com/ChristopherZhong/home-lab#readme",
+  "bugs": {
+    "url": "https://github.com/ChristopherZhong/home-lab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristopherZhong/home-lab.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Christopher Zhong",
+  "type": "module",
+  "main": "",
+  "scripts": {
+    "prepare": "node .husky/install.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "3.8.3"
+  }
+}

@@ -1,0 +1,6 @@
+"*.{mjs,js,jsx,mts,ts,tsx}":
+  - prettier --write
+"*.md":
+  - prettier --write
+"*.{yaml,yml}":
+  - prettier --write
