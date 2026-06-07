@@ -8,6 +8,8 @@ Team preferences and non-negotiable rules for contributors and automation:
 - Only use GitKraken, MCP, or other remote helpers when the user explicitly
   requests them.
 - Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format (for example, `chore(tailscale): ...`).
+- If a previous commit or workflow step violated these rules, correct it
+  immediately in the current session before reporting completion.
 
 ## Rules
 
