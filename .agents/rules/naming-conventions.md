@@ -54,7 +54,7 @@ Agents use the `<workflow>-<actor>` pattern:
 
 **Directory structure:**
 ```
-.agents/agents/<workflow>-<actor>.md
+.agents/agents/<workflow>-<actor>.agent.md
 ```
 
 ## Prompts
@@ -97,11 +97,11 @@ Workflow reference:
 | **Skill** | `review-manifests` | `<verb>-<noun>` | Review Kubernetes manifests |
 | **Skill** | `review-prompt` | `<verb>-<noun>` | Review reusable prompts |
 | **Skill** | `sync-docs` | `<verb>-<noun>` | Synchronize documentation |
-| **Agent** | `ai-asset-alignment-maintainer.md` | `<workflow>-<actor>` | Maintain AI asset alignment |
-| **Agent** | `docs-auditor.md` | `<workflow>-<actor>` | Audit documentation |
-| **Agent** | `gitops-change-reviewer.md` | `<workflow>-<actor>` | Review infrastructure changes |
-| **Agent** | `k3s-script-reviewer.md` | `<workflow>-<actor>` | Review K3s scripts |
-| **Agent** | `question-resolution-maintainer.md` | `<workflow>-<actor>` | Maintain question resolutions |
+| **Agent** | `ai-asset-alignment-maintainer.agent.md` | `<workflow>-<actor>` | Maintain AI asset alignment |
+| **Agent** | `docs-auditor.agent.md` | `<workflow>-<actor>` | Audit documentation |
+| **Agent** | `gitops-change-reviewer.agent.md` | `<workflow>-<actor>` | Review infrastructure changes |
+| **Agent** | `k3s-script-reviewer.agent.md` | `<workflow>-<actor>` | Review K3s scripts |
+| **Agent** | `question-resolution-maintainer.agent.md` | `<workflow>-<actor>` | Maintain question resolutions |
 | **Prompt** | `align-related-ai-assets.md` | Descriptive phrase | Align related AI assets |
 | **Prompt** | `design-agent.md` | Mirrors skill name | Design new agents |
 | **Prompt** | `documentation-review.md` | Descriptive phrase | Review documentation |

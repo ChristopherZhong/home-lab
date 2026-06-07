@@ -59,7 +59,7 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 ## Naming Conventions
 
-- Agent file: `<workflow>-<actor>.md` (e.g., `gitops-change-reviewer.md`, `docs-auditor.md`)
+- Agent file: `<workflow>-<actor>.agent.md` (e.g., `gitops-change-reviewer.agent.md`, `docs-auditor.agent.md`)
 - Descriptor in filename:
   - Use `-reviewer` for auditing/validation workflows
   - Use `-maintainer` for maintenance or management workflows
@@ -68,7 +68,7 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 ## Examples from Repository
 
-- `gitops-change-reviewer.md` → Reviews proposed infrastructure changes
-- `docs-auditor.md` → Audits documentation consistency
-- `question-resolution-maintainer.md` → Resolves open questions and suggestions
+- `gitops-change-reviewer.agent.md` → Reviews proposed infrastructure changes
+- `docs-auditor.agent.md` → Audits documentation consistency
+- `question-resolution-maintainer.agent.md` → Resolves open questions and suggestions
 
