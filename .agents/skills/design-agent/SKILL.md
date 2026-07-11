@@ -66,9 +66,14 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
   - Use `-designer` or `-creator` for design workflows
 - Keep names concise and action-oriented
 
+## Rename Workflow
+
+- When a repository asset needs to be renamed, use the `.agents/skills/rename-files` workflow rather than invoking the helper script directly.
+- The rename skill coordinates the helper script, updates textual references across the repo, and stages the changes for review without committing them.
+- Apply it to agent files, prompts, skills, documentation, or any other tracked or untracked path that should be renamed as part of a workflow change.
+
 ## Examples from Repository
 
 - `gitops-change-reviewer.agent.md` → Reviews proposed infrastructure changes
 - `docs-auditor.agent.md` → Audits documentation consistency
 - `question-resolution-maintainer.agent.md` → Resolves open questions and suggestions
-

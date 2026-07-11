@@ -36,10 +36,9 @@ operations.
   `.agents/skills/` so the repository's source-of-truth remains consistent.
 
 - **Rename safety:** when renaming an agent or other AI asset, update all
-  textual references (both path and basename) across the repository. Use a
-  helper script (for example `.agents/scripts/rename-agent-files.sh`) when
-  available, stage the changes, and present them for human review before
-  committing.
+  textual references (both path and basename) across the repository. Use the
+  `.agents/skills/rename-files` workflow to perform the rename, stage the
+  changes, and present them for human review before committing.
 
 - **Preflight and approval:** automated agents must present a concise
   preflight summary before committing, including the proposed Conventional
