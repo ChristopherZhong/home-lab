@@ -16,6 +16,7 @@ Skills use the `<verb>-<noun>` pattern:
 - ✅ `review-prompts` — Review prompts
 - ✅ `onboard-contributor` — Onboard contributors
 - ✅ `create-issue` — Create issues
+- ✅ `validate-ai-assets` — Validate AI asset layout conventions
 - ❌ `agent-design` — Wrong: noun-verb order
 - ❌ `prompt-review` — Wrong: noun-verb order
 
@@ -106,6 +107,7 @@ Workflow reference:
 | **Skill**  | `review-manifests`                        | `<verb>-<noun>`                  | Review Kubernetes manifests     |
 | **Skill**  | `review-prompts`                          | `<verb>-<noun>`                  | Review reusable prompts         |
 | **Skill**  | `sync-docs`                               | `<verb>-<noun>`                  | Synchronize documentation       |
+| **Skill**  | `validate-ai-assets`                      | `<verb>-<noun>`                  | Validate AI asset layout        |
 | **Agent**  | `ai-asset-alignment-maintainer.agent.md`  | `<workflow>-<actor>`             | Maintain AI asset alignment     |
 | **Agent**  | `docs-auditor.agent.md`                   | `<workflow>-<actor>`             | Audit documentation             |
 | **Agent**  | `gitops-change-reviewer.agent.md`         | `<workflow>-<actor>`             | Review infrastructure changes   |

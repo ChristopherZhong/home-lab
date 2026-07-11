@@ -31,7 +31,7 @@ The helper is invoked by that skill as part of the rename workflow.
 Run the validator locally before changing or renaming AI assets:
 
 ```bash
-python3 .agents/scripts/validate-ai-assets.py
+python3 .agents/skills/validate-ai-assets/validate-ai-assets.py
 ```
 
 Example commit message:

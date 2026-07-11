@@ -1,0 +1,30 @@
+name: Validate AI assets
+
+on:
+  pull_request:
+    paths:
+      - ".agents/**"
+      - "AGENTS.md"
+      - ".github/workflows/validate-ai-assets.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".agents/**"
+      - "AGENTS.md"
+      - ".github/workflows/validate-ai-assets.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate AI asset layout
+        run: python3 .agents/skills/validate-ai-assets/validate-ai-assets.py
