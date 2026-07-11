@@ -16,7 +16,7 @@
   "main": "",
   "scripts": {
     "prepare": "node .husky/install.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "python3 .agents/skills/validate-ai-assets/validate-ai-assets.py"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
