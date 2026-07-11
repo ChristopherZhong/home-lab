@@ -4,7 +4,7 @@ Audit the reusable prompts in `.agents/prompts/` for contradictions, inconsisten
 
 Workflow reference:
 
-- `.agents/skills/review-prompt/SKILL.md`
+- `.agents/skills/review-prompts/SKILL.md`
 
 Analysis focus:
 

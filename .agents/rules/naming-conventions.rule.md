@@ -13,7 +13,7 @@ Skills use the `<verb>-<noun>` pattern:
 **Examples:**
 
 - ✅ `design-agent` — Design new agents
-- ✅ `review-prompt` — Review prompts
+- ✅ `review-prompts` — Review prompts
 - ✅ `onboard-contributor` — Onboard contributors
 - ✅ `create-issue` — Create issues
 - ❌ `agent-design` — Wrong: noun-verb order
@@ -70,7 +70,7 @@ Prompts follow the same pattern as their linked skill or agent:
 
 **Examples:**
 
-- `review-prompt.md` → Links to skill `review-prompt`
+- `review-prompts.md` → Links to skill `review-prompts`
 - `agent-design.md` → Links to skill `design-agent`
 - `align-related-ai-assets.md` → Links to skill `align-assets`
 
@@ -104,7 +104,7 @@ Workflow reference:
 | **Skill**  | `onboard-contributor`                     | `<verb>-<noun>`                  | Onboard contributors            |
 | **Skill**  | `resolve-questions`                       | `<verb>-<noun>`                  | Resolve open questions          |
 | **Skill**  | `review-manifests`                        | `<verb>-<noun>`                  | Review Kubernetes manifests     |
-| **Skill**  | `review-prompt`                           | `<verb>-<noun>`                  | Review reusable prompts         |
+| **Skill**  | `review-prompts`                          | `<verb>-<noun>`                  | Review reusable prompts         |
 | **Skill**  | `sync-docs`                               | `<verb>-<noun>`                  | Synchronize documentation       |
 | **Agent**  | `ai-asset-alignment-maintainer.agent.md`  | `<workflow>-<actor>`             | Maintain AI asset alignment     |
 | **Agent**  | `docs-auditor.agent.md`                   | `<workflow>-<actor>`             | Audit documentation             |
@@ -116,5 +116,5 @@ Workflow reference:
 | **Prompt** | `documentation-review.md`                 | Descriptive phrase               | Review documentation            |
 | **Prompt** | `kubernetes-change-review.md`             | Descriptive phrase               | Review Kubernetes changes       |
 | **Prompt** | `relentless-interview.md`                 | Mirrors skill name (user-facing) | Conduct persistent interviews   |
-| **Prompt** | `review-prompt.md`                        | Mirrors skill name               | Review reusable prompts         |
+| **Prompt** | `review-prompts.md`                       | Mirrors skill name               | Review reusable prompts         |
 | **Prompt** | `script-hardening-review.md`              | Descriptive phrase               | Review script safety            |

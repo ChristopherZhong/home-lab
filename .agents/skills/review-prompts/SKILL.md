@@ -1,5 +1,5 @@
 ---
-name: review-prompt
+name: review-prompts
 description: Analyze reusable prompts in `.agents/prompts` for contradictions, inconsistencies, and gaps.
 ---
 
@@ -9,7 +9,7 @@ Use this skill to audit the repository's reusable prompts for quality, consisten
 
 User-facing prompt reference:
 
-- `.agents/prompts/review-prompt.md`
+- `.agents/prompts/review-prompts.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 
@@ -98,4 +98,3 @@ Use this checklist when reviewing prompts:
 - [ ] Reflects current repository state (no outdated examples)
 - [ ] Workflow is distinct or intentionally variant from other prompts
 - [ ] Use cases and triggering conditions are clear
-
