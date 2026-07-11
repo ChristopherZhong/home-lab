@@ -1,0 +1,4 @@
+# Repository ownership for repository-wide governance
+# Review and approval of changes across the repository should default to the repository maintainers.
+* @ChristopherZhong
+/.agents/ @ChristopherZhong
