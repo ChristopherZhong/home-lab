@@ -3,11 +3,10 @@ kind: Ingress
 metadata:
   name: argocd-server-ingress
   namespace: argocd
-  annotations:
-    spec.ingressClassName: traefik
 spec:
+  ingressClassName: tailscale
   rules:
-    - host: argocd.raspberrypi-1.local
+    - host: argocd.tailf7309c.ts.net
       http:
         paths:
           - path: /
