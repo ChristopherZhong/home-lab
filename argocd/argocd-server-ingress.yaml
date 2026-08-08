@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: argocd-server-ingress
   namespace: argocd
+  annotations:
+    tailscale.com/proxy-group: argocd-ingress-proxies
 spec:
   ingressClassName: tailscale
   rules:
