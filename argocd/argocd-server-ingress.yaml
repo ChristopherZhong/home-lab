@@ -9,9 +9,10 @@ spec:
   ingressClassName: tailscale
   tls:
     - hosts:
-        - argocd
+        - argocd.tailf7309c.ts.net
   rules:
-    - http:
+    - host: argocd.tailf7309c.ts.net
+      http:
         paths:
           - path: /
             pathType: Prefix
