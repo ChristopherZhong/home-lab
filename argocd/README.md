@@ -19,9 +19,11 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
 Since Argo CD is running on your Raspberry Pi and you're connecting from another device, use `kubectl` port-forwarding to access the Argo CD server securely:
 
 1. On your local machine, open a terminal and run:
+
    ```bash
    kubectl port-forward svc/argocd-server --namespace argocd 8080:443
    ```
+
    This forwards port 8080 on your local machine to port 443 (HTTPS) on the Argo CD server.
 
 2. Open your browser and go to: `https://localhost:8080`
@@ -33,6 +35,7 @@ Since Argo CD is running on your Raspberry Pi and you're connecting from another
 4. You may see a certificate warning because you're accessing via `localhost`. Click **Advanced** or **Proceed Anyway** to continue (this is normal for local development).
 
 **Tip**: If you lose the password, reset it by running on the Raspberry Pi:
+
 ```bash
 kubectl --namespace argocd account update-password admin <new-password>
 ```
@@ -90,12 +93,12 @@ Your application is now created and Argo CD will begin synchronizing manifests f
 
 After creating an application, you'll see it listed on the dashboard. Here's what the status indicators mean:
 
-| Status | Meaning |
-|--------|---------|
-| 🟢 **Synced** | Cluster state matches Git repository (everything is up-to-date) |
+| Status           | Meaning                                                         |
+| ---------------- | --------------------------------------------------------------- |
+| 🟢 **Synced**    | Cluster state matches Git repository (everything is up-to-date) |
 | 🟡 **OutOfSync** | Cluster state differs from Git repository (changes are pending) |
-| 🔴 **Error** | Argo CD encountered an error deploying the application |
-| ⏳ **Syncing** | Argo CD is currently applying changes to the cluster |
+| 🔴 **Error**     | Argo CD encountered an error deploying the application          |
+| ⏳ **Syncing**   | Argo CD is currently applying changes to the cluster            |
 
 ### 6. Manually Sync Application Changes
 
@@ -130,7 +133,7 @@ home-lab/
 └── ...other project files
 ```
 
-Argo CD monitors the `./argocd/` directory by default. Place your application manifests there.
+With the ApplicationSet example below, Argo CD watches both the `apps/` directory and the `argocd/` directory. This lets you keep core Argo CD manifests such as the UI ingress in Git and have them reconciled automatically.
 
 ## GitOps Workflow
 
@@ -203,19 +206,20 @@ spec:
         repoURL: https://github.com/ChristopherZhong/home-lab.git
         revision: main
         directories:
-          - path: 'apps/*'
+          - path: "apps/*"
+          - path: "argocd"
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: "{{path.basename}}"
     spec:
       project: default
       source:
         repoURL: https://github.com/ChristopherZhong/home-lab.git
         targetRevision: main
-        path: '{{path}}'
+        path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: "{{path.basename}}"
       syncPolicy:
         automated:
           prune: true
@@ -223,13 +227,14 @@ spec:
 ```
 
 2. Commit and push the file to your Git repository:
+
    ```bash
    git add argocd/application-set.yaml
    git commit --message "feat: add ApplicationSet for auto-discovery"
    git push origin main
    ```
 
-3. Argo CD will automatically deploy this ApplicationSet, which will then scan the `apps/` directory and create an Application for each subdirectory
+3. Argo CD will automatically deploy this ApplicationSet, which will then scan both the `apps/` directory and the `argocd/` directory and create an Application for each relevant subdirectory or top-level config path
 
 ### Directory Structure for Auto-Discovery
 
@@ -261,12 +266,14 @@ Now, when you create a new subdirectory under `apps/`, Argo CD automatically cre
 To add a new application when using ApplicationSet:
 
 1. Create a new directory under `apps/` with your application manifests:
+
    ```bash
    mkdir -p apps/my-new-app
    # Add your Kubernetes manifests here
    ```
 
 2. Commit and push:
+
    ```bash
    git add apps/my-new-app/
    git commit --message "feat: add my-new-app deployment"
@@ -279,13 +286,13 @@ To add a new application when using ApplicationSet:
 
 ApplicationSet supports different generators for discovery:
 
-| Generator | Use Case |
-|-----------|----------|
-| **Git** | Scan Git repository directories or branches |
-| **List** | Create applications from a static list |
-| **Cluster** | Generate applications across multiple clusters |
-| **SCM** | Auto-discover repositories from GitHub, GitLab, Gitea |
-| **Template** | Apply templates to complex scenarios |
+| Generator    | Use Case                                              |
+| ------------ | ----------------------------------------------------- |
+| **Git**      | Scan Git repository directories or branches           |
+| **List**     | Create applications from a static list                |
+| **Cluster**  | Generate applications across multiple clusters        |
+| **SCM**      | Auto-discover repositories from GitHub, GitLab, Gitea |
+| **Template** | Apply templates to complex scenarios                  |
 
 For more information, see the [Argo CD ApplicationSet documentation](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/).
 
@@ -295,7 +302,8 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 
 **Cause**: Your Git repository has changes that haven't been applied to the cluster yet.
 
-**Solution**: 
+**Solution**:
+
 - Check that your manifests are valid YAML
 - Ensure the manifests are in the correct path (`./` or your configured path)
 - Click **Sync** to manually apply the changes
@@ -306,6 +314,7 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 **Cause**: The specified path in your Application configuration doesn't contain any YAML files.
 
 **Solution**:
+
 - Verify the **Path** is correct (e.g., `./`, `./argocd/`)
 - Ensure YAML files have `.yaml` or `.yml` extensions
 - Check that files aren't hidden files or in ignored directories
@@ -315,6 +324,7 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 **Cause**: Git credentials are incorrect or the repository URL is invalid.
 
 **Solution**:
+
 - Verify the repository URL is correct
 - For HTTPS: Ensure your GitHub personal access token has the required permissions
 - For SSH: Verify your SSH key has access to the repository
@@ -325,6 +335,7 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 **Cause**: Usually a resource is waiting on an external dependency or condition.
 
 **Solution**:
+
 - Check the application logs for error messages
 - Verify all image registries are accessible
 - Ensure sufficient cluster resources (CPU, memory, disk space)
