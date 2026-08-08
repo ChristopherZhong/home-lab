@@ -137,7 +137,7 @@ With the ApplicationSet example below, Argo CD watches both the `apps/` director
 
 ### Tailscale ingress note
 
-If you expose the Argo CD UI through the Tailscale Kubernetes Operator, the ingress should reference a dedicated `ProxyGroup` via the `tailscale.com/proxy-group` annotation. The manifest in `argocd/argocd-server-ingress.yaml` does this so the operator has an explicit ingress proxy target to reconcile.
+If you expose the Argo CD UI through the Tailscale Kubernetes Operator, the ingress should reference a dedicated `ProxyGroup` via the `tailscale.com/proxy-group` annotation. The manifest in `argocd/argocd-server-ingress.yaml` does this and uses the Tailscale operator's expected TLS host pattern so the operator can publish a MagicDNS name such as `https://argocd.tailf7309c.ts.net`.
 
 ## GitOps Workflow
 
