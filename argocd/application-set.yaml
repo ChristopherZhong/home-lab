@@ -10,19 +10,20 @@ spec:
         repoURL: https://github.com/ChristopherZhong/home-lab.git
         revision: main
         directories:
-          - path: 'apps/*'
+          - path: "apps/*"
+          - path: "argocd"
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: "{{path.basename}}"
     spec:
       project: default
       source:
         repoURL: https://github.com/ChristopherZhong/home-lab.git
         targetRevision: main
-        path: '{{path}}'
+        path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: "{{path.basename}}"
       syncPolicy:
         automated:
           prune: true
