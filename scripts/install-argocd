@@ -19,8 +19,9 @@ INGRESS_MANIFEST="$REPO_ROOT/argocd/argocd-server-ingress.yaml"
 
 echo "Installing ArgoCD (${ARGOCD_VERSION})..."
 
-# Create the argocd namespace
-sudo kubectl create namespace argocd
+# Create the argocd namespace if it does not already exist.
+# This keeps the script idempotent for subsequent runs against an existing installation.
+sudo kubectl create namespace argocd --dry-run=client --output yaml | sudo kubectl apply --filename -
 
 # Apply the official ArgoCD Kubernetes manifest
 # kubectl apply --namespace argocd --filename https://raw.githubusercontent.com/argoproj/argo-cd/$ARGOCD_VERSION/manifests/install.yaml
