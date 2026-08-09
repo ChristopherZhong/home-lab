@@ -3,21 +3,13 @@ kind: Ingress
 metadata:
   name: argocd-server-ingress
   namespace: argocd
-  annotations:
-    tailscale.com/proxy-group: argocd-ingress-proxies
 spec:
+  defaultBackend:
+    service:
+      name: argocd-server
+      port:
+        number: 80
   ingressClassName: tailscale
   tls:
     - hosts:
-        - argocd.tailf7309c.ts.net
-  rules:
-    - host: argocd.tailf7309c.ts.net
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: argocd-server
-                port:
-                  number: 80
+        - argocd
