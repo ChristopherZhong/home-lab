@@ -10,14 +10,14 @@
 set -euo pipefail
 
 # Pin Argo CD to a tested release for reproducible installs.
-ARGOCD_VERSION=${ARGOCD_VERSION:-v3.4.2}
+ARGOCD_VERSION=${ARGOCD_VERSION:-v3.5.0}
 
 # Resolve tracked manifests relative to this script so the script works from any current directory.
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
 INGRESS_MANIFEST="$REPO_ROOT/argocd/argocd-server-ingress.yaml"
 
-echo "Installing ArgoCD..."
+echo "Installing ArgoCD (${ARGOCD_VERSION})..."
 
 # Create the argocd namespace
 sudo kubectl create namespace argocd
