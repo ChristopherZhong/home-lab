@@ -45,22 +45,24 @@ The home lab starts with a single Raspberry Pi 5 and can be expanded to a multi-
 Here is the plan for building the home lab.
 
 ### ✅ Phase 1: Initial Setup
+
 1. [x] [Step 1: Prepare Raspberry Pi OS](#step-1-prepare-raspberry-pi-os)
-    1. [x] Download Raspberry Pi Imager
-    1. [x] Flash Raspberry Pi OS
-    1. [x] Generate SSH Key Pair
-    1. [x] Boot from NVMe SSD
-    1. [x] Initial Boot and Setup (SSH, System Updates)
-    1. [x] Install and Configure Git
+   1. [x] Download Raspberry Pi Imager
+   1. [x] Flash Raspberry Pi OS
+   1. [x] Generate SSH Key Pair
+   1. [x] Boot from NVMe SSD
+   1. [x] Initial Boot and Setup (SSH, System Updates)
+   1. [x] Install and Configure Git
 1. [x] [Step 2: Install Kubernetes (K3s)](#step-2-install-kubernetes-k3s)
-    - [x] Enable cgroups
-    - [x] Install K3s
-    - [ ] (Optional) Configure kubectl for non-root user
-    - [ ] (Optional) Install kubectl on local machine
+   - [x] Enable cgroups
+   - [x] Install K3s
+   - [ ] (Optional) Configure kubectl for non-root user
+   - [ ] (Optional) Install kubectl on local machine
 1. [x] [Step 3: Argo CD - Declarative GitOps](#step-3-argo-cd---declarative-gitops)
 1. [ ] [(Optional) Step 4: Install Helm](#optional-step-4-install-helm)
 
 ### 🟡 Phase 2: Core Services
+
 - [ ] **Networking**: Configure Traefik Ingress Controller
 - [ ] **Monitoring and Observability**: Grafana Setup
 - [ ] **Security and Secrets Management**: Kubernetes Dashboard, Infisical
@@ -109,10 +111,11 @@ The following instructions are for preparing the SSD. We assume that the SD card
      - Set locale settings
 
 1. **Generate SSH Key Pair** (if you don't have one)
+
    ```shell
    # On your local machine, generate Ed25519 key (most secure and performant)
    $ ssh-keygen --type ed25519 --comment "you@example.com"
-   
+
    # Display your public key to copy into Raspberry Pi Imager
    $ cat ~/.ssh/id_ed25519.pub
    ```
@@ -122,16 +125,18 @@ The following instructions are for preparing the SSD. We assume that the SD card
 1. **Booting from the M.2 NVMe SSD**. Follow the official instructions on how to boot from the SSD [here](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#nvme-ssd-boot).
 
 1. **Initial Boot and Setup**
+
    ```shell
    # SSH into your Pi using the hostname or IP
    $ ssh pi@raspberrypi-1.local
-   
+
    # Update the system
    $ sudo apt update
    $ sudo apt full-upgrade --yes
    ```
 
 1. **Install Git**
+
    ```shell
    # Install Git to clone this repository
    $ sudo apt install --yes git
@@ -148,52 +153,57 @@ The following instructions are for preparing the SSD. We assume that the SD card
 
 [K3s](https://k3s.io/) is chosen for its lightweight nature and excellent ARM64 support.
 
-This repository currently pins K3s to `v1.35.0+k3s1` in the helper scripts for reproducible installs and upgrades.
+The initialization script pins K3s to a tested release for reproducible installs. The upgrade script discovers the latest stable K3s release before upgrading.
 
 1. **Enable cgroups**
    K3s needs `cgroups` to be enabled (see https://docs.k3s.io/installation/requirements?os=pi).
    Append `cgroup_memory=1 cgroup_enable=memory` to `/boot/firmware/cmdline.txt` and reboot.
 
 1. **Install K3s**. Follow the Quick-Start [guide](https://docs.k3s.io/quick-start).
+
    ```shell
    # Install K3s
    $ curl --silent --fail --location https://get.k3s.io | INSTALL_K3S_VERSION="v1.35.0+k3s1" sh -
-   
+
    # Verify installation
    $ sudo systemctl status k3s
-   
+
    # Check nodes
    $ sudo kubectl get nodes
    ```
 
    **Note**: An initialization script ([init](./scripts/init)) is provided that can initialize K3s in either server or agent mode.
+
    ```shell
    $ ./scripts/init
    ```
 
 1. **Upgrade K3s**. Follow the instructions in this [guide](https://docs.k3s.io/upgrades) to upgrade K3s.
 
-   **Note**: The provided script upgrades to the pinned repository version `v1.35.0+k3s1`:
+   **Note**: The provided script upgrades to the latest stable K3s release:
+
    ```shell
    $ ./scripts/upgrade
    ```
 
 1. **Optional: Configure kubectl for non-root user**
+
    ```shell
    # Copy kubeconfig to user directory
    $ mkdir --parents ~/.kube
    $ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
    $ sudo chown $USER:$USER ~/.kube/config
-   
+
    # Test access
    $ kubectl get all --all-namespaces
    ```
 
 1. **Optional: Install kubectl on your local machine**
+
    ```shell
    # Copy the kubeconfig from Pi to your local machine
    $ scp pi@192.168.1.100:/etc/rancher/k3s/k3s.yaml ~/.kube/config-home-lab
-   
+
    # Edit the server URL in the config file to point to your Pi's IP
    # Then use: export KUBECONFIG=~/.kube/config-home-lab
    ```
@@ -256,10 +266,11 @@ EOF
 ```
 
 Secrets: do NOT commit plaintext credentials. Use one of the options below:
+
 - CI secret injection (recommended for CI/CD pipelines)
 - ExternalSecrets controllers (e.g. ExternalSecrets, SealedSecrets)
 - Local out-of-band script: run `./scripts/create-tailscale-secret` and provide
-   `--client-id` and `--client-secret` via environment variables or flags. Example:
+  `--client-id` and `--client-secret` via environment variables or flags. Example:
 
 ```bash
 # interactive (prompts for values)
@@ -273,8 +284,7 @@ sudo TS_CLIENT_ID="<id>" TS_CLIENT_SECRET="<secret>" \
 See `apps/tailscale/README.md` for operator-specific notes and `.harness/`
 for long-term learnings.
 
-
-### (*Optional*) **Step 4**: Install Helm
+### (_Optional_) **Step 4**: Install Helm
 
 ```shell
 # Install Helm
@@ -287,6 +297,7 @@ $ helm version
 ## 📊 Monitoring and Observability
 
 ### Grafana Setup
+
 Deploy Grafana for monitoring and visualization:
 
 ```shell
@@ -303,6 +314,7 @@ kubectl apply -f grafana/grafana.yaml
 ## 🔐 Security and Secrets Management
 
 ### Kubernetes Dashboard
+
 ```shell
 # Install Kubernetes Dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
@@ -316,6 +328,7 @@ kubectl -n kubernetes-dashboard create token admin-user
 ```
 
 ### Infisical (Secrets Management)
+
 ```shell
 # Add Infisical Helm repository
 helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
@@ -334,6 +347,7 @@ helm install infisical infisical-helm-charts/infisical -f infisical/values.yaml 
 ## 💾 Database Services
 
 ### PostgreSQL with CloudNativePG
+
 ```shell
 # Install CloudNativePG operator
 kubectl apply -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.20/releases/cnpg-1.20.0.yaml
@@ -348,6 +362,7 @@ kubectl apply -f postgres/k8s.yaml
 ## 🔧 Useful Commands
 
 ### Cluster Management
+
 ```shell
 # View all resources across namespaces
 $ kubectl get all --all-namespaces
@@ -366,6 +381,7 @@ $ kubectl scale deployment <deployment-name> --replicas=3 --namespace <namespace
 ```
 
 ### Troubleshooting
+
 ```shell
 # Check node resources
 $ kubectl top nodes
@@ -393,6 +409,7 @@ $ sudo systemctl status k3s
 ## 🤝 Contributing
 
 This is a learning project! Feel free to:
+
 - Suggest improvements to the setup process
 - Share your own home lab configurations
 - Report issues or corrections
@@ -407,5 +424,5 @@ This is a learning project! Feel free to:
 
 ---
 
-*Last updated: 2026-04-18*
-*Cluster Status: Single Node (Raspberry Pi 5)*
+_Last updated: 2026-04-18_
+_Cluster Status: Single Node (Raspberry Pi 5)_

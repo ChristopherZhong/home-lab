@@ -12,9 +12,9 @@ set -euo pipefail
 installed_version=$(k3s --version | awk 'NR == 1 { print $3 }')
 
 if [[ -z "${INSTALL_K3S_VERSION:-}" ]]; then
-  stable_release_url=$(curl --silent --fail --location --output /dev/null \
-    --write-out '%{url_effective}' https://update.k3s.io/v1-release/channels/stable)
-  INSTALL_K3S_VERSION=${stable_release_url##*/}
+  latest_release_url=$(curl --silent --fail --location --output /dev/null \
+    --write-out '%{url_effective}' https://github.com/k3s-io/k3s/releases/latest)
+  INSTALL_K3S_VERSION=${latest_release_url##*/}
 fi
 
 if [[ "$(printf '%s\n%s\n' "$installed_version" "$INSTALL_K3S_VERSION" | \
