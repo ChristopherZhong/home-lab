@@ -8,7 +8,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^apps/tailscale/kustomization\\.yaml$"],
+      "managerFilePatterns": ["/^apps/tailscale/kustomization\\.yaml$/"],
       "matchStrings": [
         "https://raw\\.githubusercontent\\.com/tailscale/tailscale/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/cmd/k8s-operator/deploy/manifests/operator\\.yaml"
       ],
