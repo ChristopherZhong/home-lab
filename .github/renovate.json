@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "platform": "github",
+  "repositories": ["ChristopherZhong/home-lab"],
+  "requireConfig": "required",
+  "onboarding": false,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^apps/tailscale/kustomization\\.yaml$"],
+      "matchStrings": [
+        "https://raw\\.githubusercontent\\.com/tailscale/tailscale/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/cmd/k8s-operator/deploy/manifests/operator\\.yaml"
+      ],
+      "depNameTemplate": "tailscale/tailscale",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "semver"
+    }
+  ]
+}
