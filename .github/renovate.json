@@ -11,6 +11,16 @@
       "depNameTemplate": "tailscale/tailscale",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^scripts/install-argocd$/"],
+      "matchStrings": [
+        "ARGOCD_VERSION=\\$\\{ARGOCD_VERSION:-(?<currentValue>v\\d+\\.\\d+\\.\\d+)\\}"
+      ],
+      "depNameTemplate": "argoproj/argo-cd",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "semver"
     }
   ]
 }
