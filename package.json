@@ -19,7 +19,7 @@
     "test": "python3 .agents/skills/validate-ai-assets/validate-ai-assets.py"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.0.2",
+    "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
