@@ -213,25 +213,25 @@ The initialization script pins K3s to a tested release for reproducible installs
 Argo CD setup and operational guidance are maintained in a dedicated guide:
 see `argocd/README.md` for full installation and configuration steps.
 
-Use `./scripts/install-argocd` to install the pinned Argo CD version and see
-`argocd/argocd-server-ingress.yaml` for the tracked ingress manifest.
+Use `./scripts/install-argocd` to install the pinned Argo CD version and bootstrap
+the ApplicationSet. Argo CD then manages its own installation and supporting
+resources from `argocd/`; a merged Renovate version update is automatically
+synced. The version pin is in `argocd/core/kustomization.yaml`.
 
 **Bootstrapping Applications**
 
-If you connected this Git repository to Argo CD, Argo CD can read the repo, but
-it will not create `Application` or `ApplicationSet` Kubernetes resources in the
-cluster by itself. To instruct Argo CD to manage the `apps/*` directories you
-must apply an `ApplicationSet` (or an `Application`) resource into the cluster
-so the Argo CD controllers can generate and sync Applications.
-
-To apply the provided `ApplicationSet` manifest (recommended):
+Argo CD does not create `Application` or `ApplicationSet` resources by itself.
+The install script bootstraps the repository's `ApplicationSet`, which manages
+the `apps/*` directories and the `argocd/` path, including Argo CD's own
+installation. If Argo CD is already installed without this ApplicationSet,
+apply it once to enable continuous reconciliation:
 
 ```bash
 sudo kubectl --namespace argocd apply --filename argocd/application-set.yaml
 ```
 
-After applying, Argo CD will create one `Application` per directory under
-`apps/*`. You can verify generated Applications with:
+After applying, Argo CD will create an Application for the `argocd/` path and
+one for each directory under `apps/*`. You can verify them with:
 
 ```bash
 sudo kubectl --namespace argocd get applications

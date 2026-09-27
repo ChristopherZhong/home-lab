@@ -124,16 +124,21 @@ Argo CD deploys all YAML files in your specified path. Organize your manifests l
 
 ```
 home-lab/
-├── argocd/                          # Application manifests deployed by Argo CD
-│   ├── README.md                    # This file
-│   ├── argocd-server-ingress.yaml   # Example: Ingress for Argo CD UI
-│   └── ...other-manifests.yaml      # Add your application manifests here
+├── argocd/                          # Argo CD installation and supporting resources
+│   ├── core/
+│   │   └── kustomization.yaml       # Pinned upstream Argo CD release
+│   ├── application-set.yaml         # Discovers apps and manages this directory
+│   ├── argocd-server-ingress.yaml   # Ingress for Argo CD UI
+│   └── kustomization.yaml           # Composes the Argo CD resources
 ├── kube-system/                     # Reserved for kube-system namespace manifests
 ├── scripts/                         # Installation and admin scripts
 └── ...other project files
 ```
 
-With the ApplicationSet example below, Argo CD watches both the `apps/` directory and the `argocd/` directory. This lets you keep core Argo CD manifests such as the UI ingress in Git and have them reconciled automatically.
+The checked-in ApplicationSet watches both the `apps/` directory and the
+`argocd/` directory. The latter is a Kustomize source containing the pinned
+upstream Argo CD installation, the ApplicationSet, and the UI ingress, so Argo
+CD reconciles its own installation as well as its supporting resources.
 
 ### Tailscale ingress note
 
@@ -150,6 +155,19 @@ Now that Argo CD is configured, this is how deployments work:
 5. **Monitor**: Use the Argo CD dashboard to watch the deployment progress
 
 This declarative approach ensures your cluster state always matches your Git repository.
+
+### Argo CD Self-Management and Upgrades
+
+The Argo CD release is pinned in `argocd/core/kustomization.yaml`, which
+references the official versioned install manifest. Renovate checks for newer
+Argo CD tags and opens a pull request for that pin. After the pull request is
+reviewed and merged, the ApplicationSet-managed `argocd` Application
+automatically syncs the new release. The core resources use server-side apply
+to avoid client-side annotation-size failures, matching the bootstrap script.
+
+The `scripts/install-argocd` script uses the same Kustomize source and applies
+the ApplicationSet. Use it for initial bootstrap or recovery; routine upgrades
+are applied by Argo CD after the version update is merged.
 
 ## Common Tasks
 

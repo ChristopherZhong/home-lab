@@ -9,28 +9,25 @@
 # -o pipefail: Cause pipelines to fail if any command in the pipeline fails
 set -euo pipefail
 
-# Pin Argo CD to a tested release for reproducible installs.
-ARGOCD_VERSION=${ARGOCD_VERSION:-v3.5.0}
-
 # Resolve tracked manifests relative to this script so the script works from any current directory.
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
 INGRESS_MANIFEST="$REPO_ROOT/argocd/argocd-server-ingress.yaml"
+APPLICATION_SET_MANIFEST="$REPO_ROOT/argocd/application-set.yaml"
 
-echo "Installing ArgoCD (${ARGOCD_VERSION})..."
+echo "Installing Argo CD from the tracked Kustomize source..."
 
 # Create the argocd namespace if it does not already exist.
 # This keeps the script idempotent for subsequent runs against an existing installation.
 sudo kubectl create namespace argocd --dry-run=client --output yaml | sudo kubectl apply --filename -
 
-# Apply the official ArgoCD Kubernetes manifest
-# kubectl apply --namespace argocd --filename https://raw.githubusercontent.com/argoproj/argo-cd/$ARGOCD_VERSION/manifests/install.yaml
+# Apply the official Argo CD Kubernetes manifest from the tracked Kustomize source.
 # --namespace: Specify the namespace for the resources
 # --server-side: Use server-side apply to avoid the "metadata.annotations: Too long" error.
 #   The server calculates the patch, which avoids a client-side limitation with large annotations.
 # --force-conflicts: Forces the overwrite of conflicting fields when switching to server-side apply.
-# --filename: Filename or URL of the manifest to apply
-sudo kubectl apply --namespace argocd --server-side --force-conflicts --filename "https://raw.githubusercontent.com/argoproj/argo-cd/$ARGOCD_VERSION/manifests/install.yaml"
+# --kustomize: Build and apply the pinned upstream manifest from the repository.
+sudo kubectl apply --namespace argocd --server-side --force-conflicts --kustomize "$REPO_ROOT/argocd/core"
 
 # Wait for ArgoCD to be ready
 echo "Waiting for ArgoCD to be ready..."
@@ -48,6 +45,9 @@ echo ""
 # Configure ingress for ArgoCD via Traefik.
 # kubectl apply --filename "$INGRESS_MANIFEST"
 sudo kubectl apply --filename "$INGRESS_MANIFEST"
+
+# Bootstrap the ApplicationSet that will manage Argo CD and application manifests from Git.
+sudo kubectl apply --filename "$APPLICATION_SET_MANIFEST"
 
 # Validate that the ingress is set
 sudo kubectl get ingress --namespace argocd

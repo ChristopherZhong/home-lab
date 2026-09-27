@@ -14,9 +14,9 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^scripts/install-argocd$/"],
+      "managerFilePatterns": ["/^argocd/core/kustomization\\.yaml$/"],
       "matchStrings": [
-        "ARGOCD_VERSION=\\$\\{ARGOCD_VERSION:-(?<currentValue>v\\d+\\.\\d+\\.\\d+)\\}"
+        "https://raw\\.githubusercontent\\.com/argoproj/argo-cd/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/manifests/install\\.yaml"
       ],
       "depNameTemplate": "argoproj/argo-cd",
       "datasourceTemplate": "github-tags",
