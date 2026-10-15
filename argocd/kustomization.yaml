@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - core
   - application-set.yaml
+  - proxy-group.yaml
   - argocd-server-ingress.yaml
