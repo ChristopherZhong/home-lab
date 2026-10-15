@@ -9,6 +9,7 @@ See long-term learnings and guidance for this operator at
 `.harness/tailscale-learnings.md`.
 
 What is here
+
 - `kustomization.yaml` — Kustomize overlay referencing the raw upstream operator manifest.
 - `remove-operator-oauth-secret.yaml` — strategic-merge patch that deletes the
   placeholder `operator-oauth` Secret from the upstream manifest at build time.
@@ -16,17 +17,21 @@ What is here
   out-of-band (keeps secrets out of Git).
 
 How this is applied
+
 - The repository contains an `ApplicationSet` (argocd/application-set.yaml) that
   auto-creates one `Application` per `apps/<name>` directory. The ApplicationSet
   is configured to `CreateNamespace=true`, so generated Applications create the
   `tailscale` namespace when they sync.
 
 Install method
+
 - This layout uses the static upstream manifest (`operator.yaml`) referenced from
   `kustomization.yaml`. For predictable installs, pin the raw manifest to a tag
-  or commit SHA instead of `main`.
+  or commit SHA instead of `main`. The overlay also pins the operator image to a
+  versioned tag so Argo CD detects image upgrades and rolls out the Deployment.
 
 CRDs and RBAC ordering
+
 - The upstream manifest includes CRDs and cluster-scoped RBAC. The manifest
   places CRDs at the top, but CRDs must reach the `Established` condition
   before CustomResources (CRs) are accepted by the API server. This repository
@@ -35,6 +40,7 @@ CRDs and RBAC ordering
   errors during sync.
 
 Secrets
+
 - The operator expects a Secret named `operator-oauth` containing `client_id`
   and `client_secret`. This repository intentionally removes the placeholder
   `operator-oauth` Secret from the upstream manifest (see
@@ -48,6 +54,7 @@ applying the operator manifest):
 https://tailscale.com/docs/kubernetes-operator/install-operator#configure-tags-and-oauth-credentials
 
 Supply the real secret out-of-band using one of these options:
+
 - Script (recommended for local workflows): run the included script before
   pushing or deploying:
 
@@ -65,10 +72,12 @@ scripts/create-tailscale-secret --client-id your-id --client-secret your-secret
   injection or encrypted repo-backed secrets (not used here by default).
 
 Notes and safety
+
 - Test operator installation in a staging cluster before production.
 - Do not commit plaintext secrets or sealed objects unless you accept that
   encrypted secrets are stored in Git.
 
 References
+
 - https://tailscale.com/docs/kubernetes-operator/
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/

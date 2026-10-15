@@ -7,6 +7,10 @@ namespace: tailscale
 resources:
   - https://raw.githubusercontent.com/tailscale/tailscale/v1.104.1/cmd/k8s-operator/deploy/manifests/operator.yaml
 
+images:
+  - name: tailscale/k8s-operator
+    newTag: v1.104.1
+
 # Remove the upstream `operator-oauth` Secret so we don't commit or apply it from Git.
 # Secret should be injected out-of-band (CI/manual) into the cluster.
 patchesStrategicMerge:
