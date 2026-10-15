@@ -5,3 +5,6 @@ resources:
   - application-set.yaml
   - proxy-group.yaml
   - argocd-server-ingress.yaml
+patches:
+  - path: argocd-cmd-params-patch.yaml
+  - path: argocd-server-deployment-patch.yaml
