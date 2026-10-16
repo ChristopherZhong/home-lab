@@ -13,8 +13,7 @@ What is here
 - `kustomization.yaml` — Kustomize overlay referencing the raw upstream operator manifest.
 - `remove-operator-oauth-secret.yaml` — strategic-merge patch that deletes the
   placeholder `operator-oauth` Secret from the upstream manifest at build time.
-- `scripts/create-tailscale-secret` — helper script to create the `operator-oauth` Secret
-  out-of-band (keeps secrets out of Git).
+- [`scripts/create-tailscale-secret`](../../scripts/create-tailscale-secret) — repository-root helper to create the `operator-oauth` Secret out of band.
 
 How this is applied
 
@@ -25,10 +24,9 @@ How this is applied
 
 Install method
 
-- This layout uses the static upstream manifest (`operator.yaml`) referenced from
-  `kustomization.yaml`. For predictable installs, pin the raw manifest to a tag
-  or commit SHA instead of `main`. The overlay also pins the operator image to a
-  versioned tag so Argo CD detects image upgrades and rolls out the Deployment.
+- The upstream manifest URL and operator image are both pinned to `v1.104.1` in
+  `kustomization.yaml`. Update both version references together when upgrading
+  the operator.
 
 CRDs and RBAC ordering
 
@@ -47,23 +45,23 @@ Secrets
   `remove-operator-oauth-secret.yaml`) so that no secret material is ever
   applied from Git.
 
-Before creating the `operator-oauth` Secret, follow the upstream guide to
-configure tags and OAuth credentials (these steps must be completed prior to
-applying the operator manifest):
+Before the Tailscale Application syncs, follow the upstream guide to configure
+tags and OAuth credentials, then create the `operator-oauth` Secret in the
+cluster. This must be in place before the operator is applied:
 
 https://tailscale.com/docs/kubernetes-operator/install-operator#configure-tags-and-oauth-credentials
 
 Supply the real secret out-of-band using one of these options:
 
-- Script (recommended for local workflows): run the included script before
-  pushing or deploying:
+- Script (recommended for local workflows): from the repository root, run the
+  helper before the ApplicationSet starts syncing the Tailscale Application:
 
 ```bash
 # Non-interactive via environment variables
-TS_CLIENT_ID=... TS_CLIENT_SECRET=... scripts/create-tailscale-secret
+TS_CLIENT_ID=... TS_CLIENT_SECRET=... ./scripts/create-tailscale-secret
 
 # Pass as flags
-scripts/create-tailscale-secret --client-id your-id --client-secret your-secret
+./scripts/create-tailscale-secret --client-id your-id --client-secret your-secret
 ```
 
 - CI-injected secret: have your CI create the Secret in the cluster before

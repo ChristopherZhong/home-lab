@@ -12,7 +12,9 @@ Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. It sim
 
 ## Getting Started
 
-https://argo-cd.readthedocs.io/en/stable/getting_started/
+This repository bootstraps Argo CD with `scripts/install-argocd` and uses the
+tracked ApplicationSet to manage `argocd/` and each directory under `apps/`.
+See the root [README](../README.md) for the full home-lab setup sequence.
 
 ### 1. Access the Argo CD Dashboard
 
@@ -53,45 +55,38 @@ On first login, it's strongly recommended to change the default password:
 5. Enter your current password and the new password
 6. Click **Update**
 
-### 3. Connect Your Git Repository
+### 3. Bootstrap and Verify Repository Applications
 
-Argo CD needs to know where to pull your cluster configuration from. Set up the connection to this repository:
+Before bootstrapping, create the Tailscale `operator-oauth` Secret if you plan
+to deploy the operator. The ApplicationSet automatically syncs `apps/tailscale`
+when applied, so the Secret must exist first. See
+[`apps/tailscale/README.md`](../apps/tailscale/README.md) for the supported
+secret setup methods.
 
-1. In the Argo CD dashboard, click **Settings** (gear icon) in the left sidebar
-2. Select **Repositories** → **Connect Repo**
-3. Choose **VIA HTTPS** or **VIA SSH** based on your setup
-4. Fill in these fields:
-   - **Repository URL**: `https://github.com/ChristopherZhong/home-lab.git` (or your fork)
-   - **Username**: Your GitHub username (HTTPS only)
-   - **Password**: Your GitHub personal access token (HTTPS only)
-   - **TLS client cert data** / **TLS client cert key**: (Leave blank unless using client certificates)
-5. Click **Connect**
+For a new installation, run the repository bootstrap script from the repository
+root:
 
-Once connected, you should see a status message confirming the connection succeeded.
+```bash
+./scripts/install-argocd
+```
 
-### 4. Create Your First Application
+For an existing Argo CD installation that does not yet have the tracked
+ApplicationSet, run:
 
-An Argo CD Application tells Argo CD which manifests to deploy and where to deploy them. Here's how to create one:
+```bash
+./scripts/bootstrap-argocd
+```
 
-1. Click the **+ New App** button in the top-left of the Argo CD dashboard
-2. Fill in the **Application Details**:
-   - **Application Name**: `home-lab` (or your preferred name)
-   - **Project**: Leave as `default`
-   - **Sync Policy**: Select **Automatic** (Argo CD will automatically sync changes)
-3. Configure the **Source** (where your manifests are):
-   - **Repository URL**: Select the repository you just connected
-   - **Revision**: `main` (the branch to track)
-   - **Path**: `./` (the root folder to watch for manifests)
-4. Configure the **Destination** (where to deploy):
-   - **Cluster**: `https://kubernetes.default.svc` (your local cluster)
-   - **Namespace**: `default` (can change for different namespaces)
-5. Click **Create** at the top
+The ApplicationSet watches `apps/*` and `argocd`, enables automatic sync, and
+creates each destination namespace. Verify the generated Applications with:
 
-Your application is now created and Argo CD will begin synchronizing manifests from the repository.
+```bash
+kubectl get applications --namespace argocd
+```
 
-### 5. Understanding the Application Status
+### 4. Understanding the Application Status
 
-After creating an application, you'll see it listed on the dashboard. Here's what the status indicators mean:
+After the ApplicationSet creates an application, you'll see it listed on the dashboard. Here's what the status indicators mean:
 
 | Status           | Meaning                                                         |
 | ---------------- | --------------------------------------------------------------- |
@@ -100,7 +95,7 @@ After creating an application, you'll see it listed on the dashboard. Here's wha
 | 🔴 **Error**     | Argo CD encountered an error deploying the application          |
 | ⏳ **Syncing**   | Argo CD is currently applying changes to the cluster            |
 
-### 6. Manually Sync Application Changes
+### 5. Manually Sync Application Changes
 
 If you have **Automatic** sync enabled, Argo CD checks for changes every few minutes. To manually trigger a sync:
 
@@ -109,7 +104,7 @@ If you have **Automatic** sync enabled, Argo CD checks for changes every few min
 3. Review the changes that will be applied
 4. Click **Synchronize** to apply them immediately
 
-### 7. Monitor Deployment Progress
+### 6. Monitor Deployment Progress
 
 While your application syncs:
 
@@ -120,7 +115,8 @@ While your application syncs:
 
 ## Understanding Manifest Organization
 
-Argo CD deploys all YAML files in your specified path. Organize your manifests like this:
+The tracked ApplicationSet discovers application directories and the Argo CD
+configuration. The repository layout is:
 
 ```
 home-lab/
@@ -128,8 +124,11 @@ home-lab/
 │   ├── core/
 │   │   └── kustomization.yaml       # Pinned upstream Argo CD release
 │   ├── application-set.yaml         # Discovers apps and manages this directory
-│   ├── argocd-server-ingress.yaml   # Ingress for Argo CD UI
-│   └── kustomization.yaml           # Composes the Argo CD resources
+│   ├── proxy-group.yaml             # Tailscale ingress proxy group
+│   ├── argocd-server-ingress.yaml   # Private ingress for Argo CD UI
+│   └── kustomization.yaml           # Composes Argo CD supporting resources
+├── apps/
+│   └── tailscale/                   # Tailscale Kubernetes Operator
 ├── kube-system/                     # Reserved for kube-system namespace manifests
 ├── scripts/                         # Installation and admin scripts
 └── ...other project files
@@ -140,16 +139,19 @@ The checked-in ApplicationSet watches both the `apps/` directory and the
 upstream Argo CD installation, the ApplicationSet, and the UI ingress, so Argo
 CD reconciles its own installation as well as its supporting resources.
 
-### Tailscale ingress note
+### Tailscale ingress
 
-If you expose the Argo CD UI through the Tailscale Kubernetes Operator, the ingress should reference a dedicated `ProxyGroup` via the `tailscale.com/proxy-group` annotation. The manifest in `argocd/argocd-server-ingress.yaml` does this and uses the Tailscale operator's expected TLS host pattern so the operator can publish a MagicDNS name such as `https://argocd.tailf7309c.ts.net`.
+The tracked ingress uses `ingressClassName: tailscale`, references the
+`argocd-ingress-proxies` `ProxyGroup`, and requests TLS for the `argocd` host.
+Tailscale terminates TLS at the ingress; the Argo CD server is configured for
+insecure HTTP behind it to avoid HTTPS redirect loops.
 
 ## GitOps Workflow
 
 Now that Argo CD is configured, this is how deployments work:
 
 1. **Make Changes**: Edit YAML manifest files in your local repository
-2. **Commit**: `git commit -m "deploy: add new service"`
+2. **Commit**: `git commit --message "deploy: add new service"`
 3. **Push**: `git push origin main`
 4. **Sync**: Argo CD detects the change and automatically deploys it (or manually sync if you prefer)
 5. **Monitor**: Use the Argo CD dashboard to watch the deployment progress
@@ -173,150 +175,40 @@ are applied by Argo CD after the version update is merged.
 
 ### Update an Existing Deployment
 
-1. Edit the relevant YAML file in the `argocd/` directory
+1. Edit the relevant application under `apps/<name>/` or shared Argo CD configuration under `argocd/`
 2. Commit and push your changes to Git
 3. Argo CD automatically detects the change and updates the deployment
 4. Monitor the sync progress in the dashboard
 
 ### Disable Automatic Sync
 
-If you want to review changes before applying them:
-
-1. Click your application in the dashboard
-2. Click **App Details** in the top-right
-3. Find **Sync Policy** and toggle **Automatic Sync** to **Manual**
-4. Now you must manually click **Sync** to deploy changes
+Generated Applications follow the sync policy in `argocd/application-set.yaml`.
+To disable automatic sync for generated Applications, remove the `automated`
+entry from the ApplicationSet template and commit that change. Editing a
+generated Application in the UI is not the source of truth and may be reverted
+by the ApplicationSet controller.
 
 ### Rollback a Failed Deployment
 
-If a deployment caused problems:
+Revert the Git commit that introduced the failed deployment. Argo CD will sync
+the restored manifests and bring the cluster back to the desired state. For a
+temporary manual recovery, first change the ApplicationSet sync policy in Git.
 
-1. Click your application in the dashboard
-2. Click the **History** tab
-3. Find the previous stable revision
-4. Click the revision and select **Rollback**
+## Adding an Application
 
-## Advanced: Auto-Discovering Applications with ApplicationSet
+Create an application directory under `apps/` and include a `kustomization.yaml`
+or manifests that Argo CD can render. The ApplicationSet creates an Application
+named after the directory, targets a namespace with the same name, and enables
+automatic sync and namespace creation.
 
-As your home lab grows and you manage multiple applications, manually creating each Application becomes tedious. Argo CD's **ApplicationSet** feature automatically discovers and deploys applications based on patterns in your Git repository.
-
-### Why Use ApplicationSet?
-
-- **Scalability**: Manage dozens or hundreds of applications without manual configuration
-- **Consistency**: All auto-discovered applications follow the same template
-- **Less manual work**: Add new applications by simply creating a new directory
-- **True GitOps**: Everything is declared in Git, including application discovery rules
-
-### Example: Auto-Discover Applications by Directory
-
-Create an ApplicationSet that automatically discovers applications in subdirectories:
-
-1. Create a file `argocd/application-set.yaml`:
-
-   **Note**: The filename doesn't matter—Kubernetes only cares about the resource `kind` (ApplicationSet in this case). You could name it `app-discovery.yaml`, `auto-apps.yaml`, or anything else. We use `application-set.yaml` for clarity.
-
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: home-lab-apps
-  namespace: argocd
-spec:
-  generators:
-    # Use Git generator to scan repository directories
-    - git:
-        repoURL: https://github.com/ChristopherZhong/home-lab.git
-        revision: main
-        directories:
-          - path: "apps/*"
-          - path: "argocd"
-  template:
-    metadata:
-      name: "{{path.basename}}"
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/ChristopherZhong/home-lab.git
-        targetRevision: main
-        path: "{{path}}"
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}"
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+```bash
+mkdir --parents apps/my-new-app
 ```
 
-2. Commit and push the file to your Git repository:
-
-   ```bash
-   git add argocd/application-set.yaml
-   git commit --message "feat: add ApplicationSet for auto-discovery"
-   git push origin main
-   ```
-
-3. Argo CD will automatically deploy this ApplicationSet, which will then scan both the `apps/` directory and the `argocd/` directory and create an Application for each relevant subdirectory or top-level config path
-
-### Directory Structure for Auto-Discovery
-
-For the example above, organize your applications like this:
-
-```
-home-lab/
-├── argocd/
-│   ├── README.md
-│   ├── argocd-server-ingress.yaml
-│   └── application-set.yaml         # ApplicationSet configuration
-├── apps/                            # Auto-discovered applications
-│   ├── my-service-1/
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   └── configmap.yaml
-│   ├── my-service-2/
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
-│   └── my-service-3/
-│       └── kustomization.yaml
-└── scripts/
-```
-
-Now, when you create a new subdirectory under `apps/`, Argo CD automatically creates an Application for it!
-
-### Adding a New Application
-
-To add a new application when using ApplicationSet:
-
-1. Create a new directory under `apps/` with your application manifests:
-
-   ```bash
-   mkdir -p apps/my-new-app
-   # Add your Kubernetes manifests here
-   ```
-
-2. Commit and push:
-
-   ```bash
-   git add apps/my-new-app/
-   git commit --message "feat: add my-new-app deployment"
-   git push origin main
-   ```
-
-3. Argo CD automatically detects the new directory and deploys it within minutes (or manually sync to deploy immediately)
-
-### Generator Types
-
-ApplicationSet supports different generators for discovery:
-
-| Generator    | Use Case                                              |
-| ------------ | ----------------------------------------------------- |
-| **Git**      | Scan Git repository directories or branches           |
-| **List**     | Create applications from a static list                |
-| **Cluster**  | Generate applications across multiple clusters        |
-| **SCM**      | Auto-discover repositories from GitHub, GitLab, Gitea |
-| **Template** | Apply templates to complex scenarios                  |
-
-For more information, see the [Argo CD ApplicationSet documentation](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/).
+After adding the manifests and committing the changes, Argo CD discovers the
+directory and syncs it automatically. See the
+[ApplicationSet manifest](application-set.yaml) for the generator and sync
+policy.
 
 ## Troubleshooting
 
@@ -327,7 +219,7 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 **Solution**:
 
 - Check that your manifests are valid YAML
-- Ensure the manifests are in the correct path (`./` or your configured path)
+- Ensure the manifests are in a discovered path: `apps/<name>/` or `argocd/`
 - Click **Sync** to manually apply the changes
 - Check application logs for error messages
 
@@ -337,7 +229,8 @@ For more information, see the [Argo CD ApplicationSet documentation](https://arg
 
 **Solution**:
 
-- Verify the **Path** is correct (e.g., `./`, `./argocd/`)
+- Verify the application source path matches a discovered directory under
+  `apps/` or the tracked `argocd/` path
 - Ensure YAML files have `.yaml` or `.yml` extensions
 - Check that files aren't hidden files or in ignored directories
 

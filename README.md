@@ -6,12 +6,15 @@ A comprehensive guide to building a production-ready Kubernetes home lab, starti
 
 The repository currently tracks:
 
-- `argocd/argocd-server-ingress.yaml`: Ingress manifest for exposing `argocd-server` through Traefik
+- `argocd/`: Pinned Argo CD installation, ApplicationSet, Tailscale `ProxyGroup`, ingress, and server configuration patches
+- `apps/tailscale/`: Argo CD-managed Tailscale Kubernetes Operator manifests
 - `.agents/agents/`: Shared custom agent definitions for this repository
 - `.agents/prompts/`: Reusable prompt templates for repository workflows, general reusable tasks, and human or agent use
 - `.agents/skills/`: Shared reusable skills in an open-standard style location
 - `scripts/init`: K3s bootstrap script for server or agent mode
-- `scripts/install-argocd`: Argo CD installation script
+- `scripts/install-argocd`: Installs the pinned Argo CD release and bootstraps its GitOps resources
+- `scripts/bootstrap-argocd`: Applies the ApplicationSet to an existing Argo CD installation
+- `scripts/create-tailscale-secret`: Creates the Tailscale operator OAuth Secret out of band
 - `scripts/upgrade`: K3s upgrade script
 - `kube-system/`: Reserved for future `kube-system` namespace manifests and currently empty
 
@@ -36,7 +39,7 @@ The home lab starts with a single Raspberry Pi 5 and can be expanded to a multi-
 - **OS**: Raspberry Pi OS (headless configuration)
 - **Kubernetes Distribution**: K3s (lightweight, perfect for edge/IoT scenarios)
 - **Storage**: Local storage with expansion to distributed storage solutions
-- **Networking**: Traefik for ingress and load balancing
+- **Networking**: Tailscale Kubernetes Operator for private ingress
 
 ---
 
@@ -63,7 +66,9 @@ Here is the plan for building the home lab.
 
 ### 🟡 Phase 2: Core Services
 
-- [ ] **Networking**: Configure Traefik Ingress Controller
+- [x] **Private ingress**: Tailscale Operator and Argo CD ingress manifests are tracked in Git
+- [ ] **Networking**: Broader ingress and load-balancing setup
+
 - [ ] **Monitoring and Observability**: Grafana Setup
 - [ ] **Security and Secrets Management**: Kubernetes Dashboard, Infisical
 - [ ] **Database Services**: PostgreSQL with CloudNativePG
@@ -218,6 +223,17 @@ the ApplicationSet. Argo CD then manages its own installation and supporting
 resources from `argocd/`; a merged Renovate version update is automatically
 synced. The version pin is in `argocd/core/kustomization.yaml`.
 
+The Argo CD UI ingress uses the Tailscale Kubernetes Operator and the dedicated
+`argocd-ingress-proxies` `ProxyGroup`. Argo CD is configured for insecure HTTP
+behind the operator's TLS-terminating ingress, avoiding redirects back to HTTPS
+between the ingress and server. See `apps/tailscale/README.md` for operator
+installation notes and OAuth Secret setup.
+
+If deploying the Tailscale Operator, create its OAuth Secret before running the
+install script or applying the ApplicationSet. The ApplicationSet automatically
+starts syncing the `apps/tailscale` directory when it is applied; secret setup
+instructions are below.
+
 **Bootstrapping Applications**
 
 Argo CD does not create `Application` or `ApplicationSet` resources by itself.
@@ -294,71 +310,6 @@ $ curl --silent --fail --location https://raw.githubusercontent.com/helm/helm/ma
 $ helm version
 ```
 
-## 📊 Monitoring and Observability
-
-### Grafana Setup
-
-Deploy Grafana for monitoring and visualization:
-
-```shell
-# Create grafana namespace
-kubectl create namespace grafana
-
-# Deploy Grafana
-kubectl apply -f grafana/grafana.yaml
-
-# Access Grafana at: http://<PI_IP>:3000
-# Default credentials: admin/admin
-```
-
-## 🔐 Security and Secrets Management
-
-### Kubernetes Dashboard
-
-```shell
-# Install Kubernetes Dashboard
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-
-# Create admin user
-kubectl apply -f kubernetes-dashboard/kubernetes-dashboard-admin-user.yml
-kubectl apply -f kubernetes-dashboard/kubernetes-dashboard-admin-user-binding.yml
-
-# Get access token
-kubectl -n kubernetes-dashboard create token admin-user
-```
-
-### Infisical (Secrets Management)
-
-```shell
-# Add Infisical Helm repository
-helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
-helm repo update
-
-# Create namespace
-kubectl create namespace infisical
-
-# Apply secrets
-kubectl apply -f infisical/infisical-secrets.yaml
-
-# Install Infisical
-helm install infisical infisical-helm-charts/infisical -f infisical/values.yaml -n infisical
-```
-
-## 💾 Database Services
-
-### PostgreSQL with CloudNativePG
-
-```shell
-# Install CloudNativePG operator
-kubectl apply -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.20/releases/cnpg-1.20.0.yaml
-
-# Create postgres namespace
-kubectl create namespace postgres
-
-# Deploy PostgreSQL cluster
-kubectl apply -f postgres/k8s.yaml
-```
-
 ## 🔧 Useful Commands
 
 ### Cluster Management
@@ -424,5 +375,4 @@ This is a learning project! Feel free to:
 
 ---
 
-_Last updated: 2026-04-18_
-_Cluster Status: Single Node (Raspberry Pi 5)_
+_Deployment model: GitOps with Argo CD_
