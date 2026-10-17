@@ -1,0 +1,25 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: grafana-ingress-proxies
+spec:
+  type: ingress
+  replicas: 1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: grafana
+  annotations:
+    tailscale.com/proxy-group: grafana-ingress-proxies
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: grafana
+      port:
+        number: 3000
+  tls:
+    - hosts:
+        - grafana

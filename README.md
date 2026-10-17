@@ -69,7 +69,7 @@ Here is the plan for building the home lab.
 - [x] **Private ingress**: Tailscale Operator and Argo CD ingress manifests are tracked in Git
 - [ ] **Networking**: Broader ingress and load-balancing setup
 
-- [ ] **Monitoring and Observability**: Grafana Setup
+- [ ] **Monitoring and Observability**: Grafana with private Tailscale access, followed by Prometheus metrics and alerting
 - [ ] **Security and Secrets Management**: Kubernetes Dashboard, Infisical
 - [ ] **Database Services**: PostgreSQL with CloudNativePG
 
