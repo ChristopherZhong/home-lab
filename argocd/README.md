@@ -128,7 +128,8 @@ home-lab/
 │   ├── argocd-server-ingress.yaml   # Private ingress for Argo CD UI
 │   └── kustomization.yaml           # Composes Argo CD supporting resources
 ├── apps/
-│   └── tailscale/                   # Tailscale Kubernetes Operator
+│   ├── tailscale/                   # Tailscale Kubernetes Operator
+│   └── grafana/                     # Grafana, persistent storage, and private Tailscale ingress
 ├── kube-system/                     # Reserved for kube-system namespace manifests
 ├── scripts/                         # Installation and admin scripts
 └── ...other project files

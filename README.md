@@ -8,6 +8,7 @@ The repository currently tracks:
 
 - `argocd/`: Pinned Argo CD installation, ApplicationSet, Tailscale `ProxyGroup`, ingress, and server configuration patches
 - `apps/tailscale/`: Argo CD-managed Tailscale Kubernetes Operator manifests
+- `apps/grafana/`: Argo CD-managed Grafana with persistent local storage and private Tailscale ingress
 - `.agents/agents/`: Shared custom agent definitions for this repository
 - `.agents/prompts/`: Reusable prompt templates for repository workflows, general reusable tasks, and human or agent use
 - `.agents/skills/`: Shared reusable skills in an open-standard style location
@@ -66,7 +67,7 @@ Here is the plan for building the home lab.
 
 ### 🟡 Phase 2: Core Services
 
-- [x] **Private ingress**: Tailscale Operator and Argo CD ingress manifests are tracked in Git
+- [x] **Private ingress**: Tailscale Operator and private ingress manifests for Argo CD and Grafana are tracked in Git
 - [ ] **Networking**: Broader ingress and load-balancing setup
 
 - [ ] **Monitoring and Observability**: Grafana with private Tailscale access, followed by Prometheus metrics and alerting

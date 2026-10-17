@@ -13,22 +13,17 @@ This repository contains the configuration for a home lab environment built on K
 - **Kubernetes:** The container orchestration platform.
 - **K3s:** A lightweight, certified Kubernetes distribution.
 - **Argo CD:** A declarative, GitOps continuous delivery tool for Kubernetes.
-- **Tailscale Kubernetes Operator:** Provides private ingress for the Argo CD UI.
+- **Tailscale Kubernetes Operator:** Provides private ingress for selected cluster services.
 
-## Repository Structure
+## Repository Map
 
-- `argocd/`: Contains the pinned Argo CD installation, ApplicationSet, Tailscale `ProxyGroup`, ingress, and server configuration patches.
-- `apps/tailscale/`: Contains the Argo CD-managed Tailscale Kubernetes Operator manifests.
-- `.agents/agents/`: Shared custom agent definitions for this repository.
-- `.agents/prompts/`: Shared reusable prompt templates for repository workflows and general reusable tasks.
-- `.agents/skills/`: Shared reusable skills in an open-standard style location.
-- `kube-system/`: Intended for manifests related to the `kube-system` namespace. (Currently empty).
-- `scripts/`: Contains essential administration scripts:
-  - `init`: Installs K3s on a new node in server or agent mode.
-  - `install-argocd`: Installs the pinned Argo CD release and applies the tracked ingress and ApplicationSet.
-  - `bootstrap-argocd`: Applies the ApplicationSet to an existing Argo CD installation.
-  - `create-tailscale-secret`: Creates the Tailscale operator OAuth Secret out of band.
-  - `upgrade`: Upgrades the K3s version on a node.
+- `argocd/`: Argo CD installation, ApplicationSet, and shared ingress configuration.
+- `apps/<name>/`: Argo CD-managed applications; the ApplicationSet discovers each directory.
+- `scripts/`: K3s bootstrap, Argo CD setup, and node administration.
+- `.agents/`: Shared agent, prompt, skill, and rule assets.
+- `kube-system/`: Reserved for system namespace manifests.
+
+See `README.md` for the current application inventory and project roadmap.
 
 ## GitOps Workflow
 
