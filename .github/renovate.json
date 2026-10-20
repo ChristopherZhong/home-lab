@@ -22,5 +22,6 @@
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "semver"
     }
-  ]
+  ],
+  "rangeStrategy": "bump"
 }
