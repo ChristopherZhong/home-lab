@@ -9,7 +9,7 @@ resources:
 
 images:
   - name: tailscale/k8s-operator
-    newTag: v1.104.1
+    newTag: v1.104.2
 
 # Remove the upstream `operator-oauth` Secret so we don't commit or apply it from Git.
 # Secret should be injected out-of-band (CI/manual) into the cluster.
