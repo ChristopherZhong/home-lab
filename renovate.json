@@ -10,9 +10,9 @@
         "newTag:\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
       ],
       "matchStringsStrategy": "any",
-      "depNameTemplate": "tailscale/tailscale",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "semver"
+      "depNameTemplate": "tailscale/k8s-operator",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
     },
     {
       "customType": "regex",

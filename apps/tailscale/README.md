@@ -24,7 +24,7 @@ How this is applied
 
 Install method
 
-- The upstream manifest URL and operator image are both pinned to `v1.104.1` in
+- The upstream manifest URL and operator image are both pinned to `v1.104.2` in
   `kustomization.yaml`. Update both version references together when upgrading
   the operator.
 
