@@ -71,6 +71,10 @@ Here is the plan for building the home lab.
 - [ ] **Networking**: Broader ingress and load-balancing setup
 
 - [ ] **Monitoring and Observability**: Grafana with private Tailscale access, followed by Prometheus metrics and alerting
+  - [ ] Deploy Prometheus through Argo CD and configure Kubernetes and node metric collection
+  - [ ] Add Prometheus as a Grafana data source
+  - [ ] Create or import dashboards for cluster and node health
+  - [ ] Configure and verify alerts for availability and resource pressure
 - [ ] **Security and Secrets Management**: Kubernetes Dashboard, Infisical
 - [ ] **Database Services**: PostgreSQL with CloudNativePG
 
