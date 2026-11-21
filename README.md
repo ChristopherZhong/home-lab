@@ -60,8 +60,9 @@ Here is the plan for building the home lab.
 1. [x] [Step 2: Install Kubernetes (K3s)](#step-2-install-kubernetes-k3s)
    - [x] Enable cgroups
    - [x] Install K3s
-   - [ ] (Optional) Configure kubectl for non-root user
+   - [x] (Optional) Configure kubectl for non-root user
    - [ ] (Optional) Install kubectl on local machine
+   - [x] (Optional) Configure the Visual Studio Code Kubernetes extension
 1. [x] [Step 3: Argo CD - Declarative GitOps](#step-3-argo-cd---declarative-gitops)
 1. [ ] [(Optional) Step 4: Install Helm](#optional-step-4-install-helm)
 
@@ -152,24 +153,32 @@ The following instructions are for preparing the SSD. We assume that the SD card
    $ sudo apt install --yes git
    ```
 
-1. **Configure Git**. First configure the user name and email.
+1. **Configure Git**
+
+   First configure the user name and email.
+
    ```shell
    $ git config --global user.name "John Doe"
    $ git config --global user.email johndoe@example.com
    ```
+
    For more details see the [docs](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
 
 ### **Step 2**: Install Kubernetes (K3s)
 
 [K3s](https://k3s.io/) is chosen for its lightweight nature and excellent ARM64 support.
 
-The initialization script pins K3s to a tested release for reproducible installs. The upgrade script discovers the latest stable K3s release before upgrading.
+The initialization script pins K3s to a tested release for reproducible installs.
+The upgrade script discovers the latest stable K3s release before upgrading.
 
 1. **Enable cgroups**
+
    K3s needs `cgroups` to be enabled (see https://docs.k3s.io/installation/requirements?os=pi).
    Append `cgroup_memory=1 cgroup_enable=memory` to `/boot/firmware/cmdline.txt` and reboot.
 
-1. **Install K3s**. Follow the Quick-Start [guide](https://docs.k3s.io/quick-start).
+1. **Install K3s**
+
+   Follow the Quick-Start [guide](https://docs.k3s.io/quick-start).
 
    ```shell
    # Install K3s
@@ -188,7 +197,9 @@ The initialization script pins K3s to a tested release for reproducible installs
    $ ./scripts/init
    ```
 
-1. **Upgrade K3s**. Follow the instructions in this [guide](https://docs.k3s.io/upgrades) to upgrade K3s.
+1. **Upgrade K3s**
+
+   Follow the instructions in this [guide](https://docs.k3s.io/upgrades) to upgrade K3s.
 
    **Note**: The provided script upgrades to the latest stable K3s release:
 
@@ -196,14 +207,31 @@ The initialization script pins K3s to a tested release for reproducible installs
    $ ./scripts/upgrade
    ```
 
-1. **Optional: Configure kubectl for non-root user**
+1. **Optional: Configure `kubectl` for non-root user**
+
+   There are two approaches:
+
+   1. Create a config (recommended).
+
+      ```shell
+      $ printf 'write-kubeconfig-mode: "0644"\n' | sudo tee /etc/rancher/k3s/config.yaml >/dev/null
+      $ sudo systemctl restart k3s
+      $ sudo systemctl status k3s
+      ```
+
+   2. Copy the config.
+      This approach has a disadvantage where if the `k3s.yaml` file changes, it needs to be copied again.
+
+      ```shell
+      $ mkdir --parents ~/.kube
+      # Copy kubeconfig to user directory
+      $ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+      $ sudo chown $USER:$USER ~/.kube/config
+      ```
+
+   Once, either is completed, you can test the `kubectl` without `sudo`.
 
    ```shell
-   # Copy kubeconfig to user directory
-   $ mkdir --parents ~/.kube
-   $ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-   $ sudo chown $USER:$USER ~/.kube/config
-
    # Test access
    $ kubectl get all --all-namespaces
    ```
@@ -217,6 +245,11 @@ The initialization script pins K3s to a tested release for reproducible installs
    # Edit the server URL in the config file to point to your Pi's IP
    # Then use: export KUBECONFIG=~/.kube/config-home-lab
    ```
+
+1. **Optional: Configure the Visual Studio Code Kubernetes extension**
+
+   In Visual Studio Code, switch to the Kubernetes extension, look for the `Set Kubeconfig`, and point it to the Kubeconfig.
+   It is either `/etc/rancher/k3s/k3s.yaml` or `~/.kube/config`.
 
 ### **Step 3**: Argo CD - Declarative GitOps
 
