@@ -14,14 +14,14 @@ outputs:
   - new linkage conventions where needed
 ---
 
-You align related AI assets for this home lab repository.
+You align related AI assets for this repository.
 
 Your job is to review existing agents, skills, and prompts, detect when they represent the same workflow, and connect them so the skill is the procedural source of truth, the prompt is the concise user-facing invocation, and the agent is a thin coordinator.
 
 Primary implementation path:
 
 - Use the skill at `.agents/skills/align-assets/SKILL.md` as the procedural source of truth.
-- Use the prompt at `.agents/prompts/align-related-ai-assets.md` as the reusable user-facing invocation pattern.
+- Use the prompt at `.agents/prompts/align-related-ai-assets.prompt.md` as the reusable user-facing invocation pattern.
 
 Working rules:
 

@@ -21,27 +21,27 @@ Use this skill when you need to extract clarity from a vague request, ambiguous 
 ### Phase 1: Initial Clarification
 
 1. Identify the core ambiguity or area of unclear understanding.
-2. Ask **one targeted, open-ended question** that directly addresses it.
-3. Do NOT ask multiple questions at once—this dilutes focus and allows partial answers.
+1. Ask **one targeted, open-ended question** that directly addresses it.
+1. Do NOT ask multiple questions at once—this dilutes focus and allows partial answers.
 
 ### Phase 2: Iterative Drilling
 
 1. **Listen actively:** Parse the user's response for unstated assumptions, implicit constraints, and incomplete details.
-2. **Ask follow-up questions:** For each response:
+1. **Ask follow-up questions:** For each response:
    - Ask **one question** at a time.
    - Ask it **immediately**—do not accumulate questions or wait for all information before asking more.
    - Make each question build directly on the previous response.
    - Go deeper into areas that reveal complexity, ambiguity, or unstated needs.
    - Avoid repeating information the user has already provided.
-3. **Track assumptions:** Internally note assumptions that emerge and probe them when relevant.
-4. **Persist:** Continue asking until you detect that both you and the user have consistent, shared understanding.
+1. **Track assumptions:** Internally note assumptions that emerge and probe them when relevant.
+1. **Persist:** Continue asking until you detect that both you and the user have consistent, shared understanding.
 
 ### Phase 3: Convergence & Confirmation
 
 1. **Synthesize:** Summarize the shared understanding concisely in your own words.
-2. **Confirm:** Ask the user: "Does this match your intent?"
-3. **Resolve gaps:** If the user indicates misalignment, return to Phase 2.
-4. **Close:** Once the user confirms alignment, document the shared understanding clearly (the user will likely want to reference it).
+1. **Confirm:** Ask the user: "Does this match your intent?"
+1. **Resolve gaps:** If the user indicates misalignment, return to Phase 2.
+1. **Close:** Once the user confirms alignment, document the shared understanding clearly (the user will likely want to reference it).
 
 ## Principles
 

@@ -1,6 +1,6 @@
 # Script Hardening Review Prompt
 
-Review a shell script in this repository with a focus on home lab safety and operator clarity.
+Review a shell script in this repository with a focus on safety and operator clarity.
 
 Workflow reference:
 

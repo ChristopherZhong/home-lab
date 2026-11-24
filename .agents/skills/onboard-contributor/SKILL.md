@@ -1,5 +1,5 @@
 ---
-name: repo-onboarding
+name: onboard-contributor
 description: Guide new contributors through this repository with accurate, current information.
 ---
 
@@ -9,7 +9,7 @@ Use this skill to onboard new contributors by explaining the repository structur
 
 User-facing prompt reference:
 
-- `.agents/prompts/repo-onboarding.md`
+- `.agents/prompts/repo-onboarding.prompt.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 
@@ -33,19 +33,19 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 1. **Inventory current state:** List what is actually in the repository today—files, scripts, manifests, configurations that are deployed or active.
 
-2. **Explain structure:** Describe:
+1. **Explain structure:** Describe:
    - The purpose of each major directory
    - What technologies are in use (Kubernetes, K3s, Argo CD, Traefik)
    - How the GitOps workflow operates
    - Where AI assets are stored (agents, skills, prompts)
 
-3. **Document key scripts:** For each script in `scripts/`, explain what it does and when to use it.
+1. **Document key scripts:** For each script in `scripts/`, explain what it does and when to use it.
 
-4. **Identify roadmap items:** Clearly separate "implemented and deployed today" from "planned for later" so contributors don't assume something exists.
+1. **Identify roadmap items:** Clearly separate "implemented and deployed today" from "planned for later" so contributors don't assume something exists.
 
-5. **Surface gaps:** Note any assumptions or gaps a new contributor should verify before making changes (e.g., "Argo CD is assumed to be already installed").
+1. **Surface gaps:** Note any assumptions or gaps a new contributor should verify before making changes (e.g., "Argo CD is assumed to be already installed").
 
-6. **Keep it grounded:** Reference only files and directories that actually exist. Do not invent missing infrastructure.
+1. **Keep it grounded:** Reference only files and directories that actually exist. Do not invent missing infrastructure.
 
 ## Output Expectations
 
@@ -75,4 +75,3 @@ When producing onboarding material, verify:
 - [ ] The explanation is concise enough for a quick read but complete enough to prevent mistakes
 - [ ] Key safety notes (e.g., permission requirements, destructive operations) are surfaced
 - [ ] Related documentation (README, AGENTS.md) is consistent with this explanation
-

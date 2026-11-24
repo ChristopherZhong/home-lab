@@ -45,6 +45,13 @@ Before editing any tracked file, run `git status`. If the target files have unco
 - Do not maintain vendor-specific compatibility layers unless explicitly requested later.
 - Note that `.agents/agents/` is a repository convention, not a widely adopted cross-tool standard.
 
+## Syncing Agent Assets
+
+Agent assets under `.agents/` sync from the upstream harness recorded in
+`.agents/config.yaml`. To create or update them, load
+`.agents/skills/sync-agents/SKILL.md` and follow it exactly. Do not hand-edit
+synced assets unless the change is a deliberate local divergence.
+
 Agent Responsibilities
 
 - Maintain repository health by keeping `.agents` assets and related documentation synchronized and by not introducing broken Kubernetes manifests, shell scripts, or rule files. Concretely:
@@ -52,7 +59,7 @@ Agent Responsibilities
     update related `*.md` files, references, and any relevant rule files in
     `.agents/rules/` so the repository remains the single source of truth.
   - When renaming assets prefer using the helper script
-    `.agents/scripts/rename-agent-files.sh` (which stages changes but does
+    `.agents/skills/rename-files/rename-files.sh` (which stages changes but does
     not commit) and then present a Conventional Commit preflight for human
     approval.
 

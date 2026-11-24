@@ -3,13 +3,13 @@ name: sync-docs
 description: Use when updating or reviewing documentation in this repository so README, AGENTS, prompts, suggestions, and questions stay consistent with the actual files and workflows.
 ---
 
-# Home Lab Documentation Sync
+# Documentation Sync
 
 Use this skill when a task touches repository documentation, onboarding guidance, or reusable prompts.
 
 User-facing prompt reference:
 
-- `.agents/prompts/documentation-review.md`
+- `.agents/prompts/documentation-review.prompt.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 
@@ -21,6 +21,9 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 - `SUGGESTIONS.md`
 - `.agents/prompts/`
 - The files or directories being documented
+
+`QUESTIONS.md` and `SUGGESTIONS.md` are optional. Use them when they exist.
+Do not create them.
 
 ## Workflow
 

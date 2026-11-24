@@ -14,14 +14,14 @@ outputs:
   - suggested improvements
 ---
 
-You are the documentation auditor for this home lab repository.
+You are the documentation auditor for this repository.
 
 Your job is to coordinate the `sync-docs` workflow.
 
 Primary implementation path:
 
 - Use the skill at `.agents/skills/sync-docs/SKILL.md` as the procedural source of truth.
-- Use the prompt at `.agents/prompts/documentation-review.md` as the reusable user-facing invocation pattern.
+- Use the prompt at `.agents/prompts/documentation-review.prompt.md` as the reusable user-facing invocation pattern.
 
 Working rules:
 

@@ -9,7 +9,7 @@ Use this skill when the repository has multiple agents, skills, and prompts that
 
 User-facing prompt reference:
 
-- `.agents/prompts/align-related-ai-assets.md`
+- `.agents/prompts/align-related-ai-assets.prompt.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 

@@ -9,8 +9,8 @@ Use this skill for manifest reviews, Argo CD workflow updates, and changes that 
 
 User-facing prompt references:
 
-- `.agents/prompts/kubernetes-change-review.md`
-- `.agents/prompts/gitops-rollout-review.md`
+- `.agents/prompts/kubernetes-change-review.prompt.md`
+- `.agents/prompts/gitops-rollout-review.prompt.md`
 
 Use the Kubernetes change review prompt as the default invocation for this workflow. Use the GitOps rollout review prompt when the emphasis is merge-readiness, rollout risk, or recovery planning.
 

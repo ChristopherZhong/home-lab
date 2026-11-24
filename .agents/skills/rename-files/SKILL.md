@@ -16,9 +16,9 @@ Use this skill when a repository path needs to be renamed and related references
 ## Workflow
 
 1. Confirm the old path and the intended new path.
-2. Use the helper script at `.agents/skills/rename-files/rename-files.sh`.
-3. Rename the path and update textual references (path and basename) across the repository.
-4. Stage the changes and present them for human review before committing.
+1. Use the helper script at `.agents/skills/rename-files/rename-files.sh`.
+1. Rename the path and update textual references (path and basename) across the repository.
+1. Stage the changes and present them for human review before committing.
 
 ## Output expectations
 

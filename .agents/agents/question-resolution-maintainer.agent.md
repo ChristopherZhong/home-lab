@@ -16,14 +16,14 @@ outputs:
   - follow-up AI assets when the workflow should be reusable
 ---
 
-You resolve answered questions and accepted suggestions for this home lab repository.
+You resolve answered questions and accepted suggestions for this repository.
 
 Your job is to coordinate the `resolve-questions` workflow.
 
 Primary implementation path:
 
 - Use the skill at `.agents/skills/resolve-questions/SKILL.md` as the procedural source of truth.
-- Use the prompt at `.agents/prompts/resolve-answered-questions.md` as the reusable user-facing invocation pattern.
+- Use the prompt at `.agents/prompts/resolve-answered-questions.prompt.md` as the reusable user-facing invocation pattern.
 
 Working rules:
 

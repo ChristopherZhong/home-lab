@@ -42,14 +42,14 @@ Skills use the `<verb>-<noun>` pattern:
 Agents use the `<workflow>-<actor>` pattern:
 
 ```
-<workflow>-<actor>.md
+<workflow>-<actor>.agent.md
 ```
 
 **Examples:**
 
-- ✅ `gitops-change-reviewer.md` — Reviews GitOps changes
-- ✅ `docs-auditor.md` — Audits documentation
-- ✅ `resolve-questions-maintainer.md` → Maintains question resolutions
+- ✅ `docs-auditor.agent.md` — Audits documentation
+- ✅ `ai-assets-maintainer.agent.md` — Maintains AI assets
+- ✅ `question-resolution-maintainer.agent.md` — Maintains question resolutions
 
 **Actor guidelines:**
 
@@ -71,14 +71,14 @@ Prompts follow the same pattern as their linked skill or agent:
 
 **Examples:**
 
-- `review-prompts.md` → Links to skill `review-prompts`
-- `agent-design.md` → Links to skill `design-agent`
-- `align-related-ai-assets.md` → Links to skill `align-assets`
+- `review-prompts.prompt.md` → Links to skill `review-prompts`
+- `agent-design.prompt.md` → Links to skill `design-agent`
+- `align-related-ai-assets.prompt.md` → Links to skill `align-assets`
 
 **Pattern:**
 
 ```
-.agents/prompts/<descriptive-name>.md
+.agents/prompts/<descriptive-name>.prompt.md
 
 ---
 # Prompt Title
@@ -94,29 +94,17 @@ Workflow reference:
 - **New prompts:** Name after the skill or use a descriptive action phrase; always include workflow reference
 - **Existing assets:** Migrate to these conventions during refactoring or when renamed for clarity
 
-## Examples from This Repository
+## Examples
 
-| Asset Type | Name                                      | Pattern                          | Purpose                         |
-| ---------- | ----------------------------------------- | -------------------------------- | ------------------------------- |
-| **Skill**  | `align-assets`                            | `<verb>-<noun>`                  | Align related AI assets         |
-| **Skill**  | `conduct-interview`                       | `<verb>-<noun>`                  | Conduct structured interviews   |
-| **Skill**  | `design-agent`                            | `<verb>-<noun>`                  | Design new agents               |
-| **Skill**  | `harden-scripts`                          | `<verb>-<noun>`                  | Review and harden shell scripts |
-| **Skill**  | `onboard-contributor`                     | `<verb>-<noun>`                  | Onboard contributors            |
-| **Skill**  | `resolve-questions`                       | `<verb>-<noun>`                  | Resolve open questions          |
-| **Skill**  | `review-manifests`                        | `<verb>-<noun>`                  | Review Kubernetes manifests     |
-| **Skill**  | `review-prompts`                          | `<verb>-<noun>`                  | Review reusable prompts         |
-| **Skill**  | `sync-docs`                               | `<verb>-<noun>`                  | Synchronize documentation       |
-| **Skill**  | `validate-ai-assets`                      | `<verb>-<noun>`                  | Validate AI asset layout        |
-| **Agent**  | `ai-asset-alignment-maintainer.agent.md`  | `<workflow>-<actor>`             | Maintain AI asset alignment     |
-| **Agent**  | `docs-auditor.agent.md`                   | `<workflow>-<actor>`             | Audit documentation             |
-| **Agent**  | `gitops-change-reviewer.agent.md`         | `<workflow>-<actor>`             | Review infrastructure changes   |
-| **Agent**  | `k3s-script-reviewer.agent.md`            | `<workflow>-<actor>`             | Review K3s scripts              |
-| **Agent**  | `question-resolution-maintainer.agent.md` | `<workflow>-<actor>`             | Maintain question resolutions   |
-| **Prompt** | `align-related-ai-assets.md`              | Descriptive phrase               | Align related AI assets         |
-| **Prompt** | `design-agent.md`                         | Mirrors skill name               | Design new agents               |
-| **Prompt** | `documentation-review.md`                 | Descriptive phrase               | Review documentation            |
-| **Prompt** | `kubernetes-change-review.md`             | Descriptive phrase               | Review Kubernetes changes       |
-| **Prompt** | `relentless-interview.md`                 | Mirrors skill name (user-facing) | Conduct persistent interviews   |
-| **Prompt** | `review-prompts.md`                       | Mirrors skill name               | Review reusable prompts         |
-| **Prompt** | `script-hardening-review.md`              | Descriptive phrase               | Review script safety            |
+| Asset Type | Name                             | Pattern              |
+| ---------- | -------------------------------- | -------------------- |
+| Skill      | `align-assets`                   | `<verb>-<noun>`      |
+| Skill      | `design-agent`                   | `<verb>-<noun>`      |
+| Skill      | `sync-agents`                    | `<verb>-<noun>`      |
+| Agent      | `docs-auditor.agent.md`          | `<workflow>-<actor>` |
+| Agent      | `ai-assets-maintainer.agent.md`  | `<workflow>-<actor>` |
+| Prompt     | `documentation-review.prompt.md` | Descriptive phrase   |
+| Rule       | `markdown.rule.md`               | `<topic>.rule.md`    |
+
+The directory itself is the authoritative list. Do not enumerate every asset
+in this rule.

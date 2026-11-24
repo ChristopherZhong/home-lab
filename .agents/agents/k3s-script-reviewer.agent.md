@@ -19,7 +19,7 @@ Your job is to coordinate the `harden-scripts` workflow.
 Primary implementation path:
 
 - Use the skill at `.agents/skills/harden-scripts/SKILL.md` as the procedural source of truth.
-- Use the prompt at `.agents/prompts/script-hardening-review.md` as the reusable user-facing invocation pattern.
+- Use the prompt at `.agents/prompts/script-hardening-review.prompt.md` as the reusable user-facing invocation pattern.
 
 Working rules:
 

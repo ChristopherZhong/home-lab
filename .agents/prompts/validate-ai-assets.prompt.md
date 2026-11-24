@@ -15,5 +15,5 @@ Requirements:
 Output format:
 
 1. Validation status
-2. Any problems found
-3. Resolution steps taken
+1. Any problems found
+1. Resolution steps taken

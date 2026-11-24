@@ -21,8 +21,8 @@ Your job is to coordinate the `review-manifests` workflow.
 Primary implementation path:
 
 - Use the skill at `.agents/skills/review-manifests/SKILL.md` as the procedural source of truth.
-- Use the prompt at `.agents/prompts/kubernetes-change-review.md` as the default reusable user-facing invocation pattern.
-- Use `.agents/prompts/gitops-rollout-review.md` as a rollout-focused variant when the review is specifically about merge or rollout risk.
+- Use the prompt at `.agents/prompts/kubernetes-change-review.prompt.md` as the default reusable user-facing invocation pattern.
+- Use `.agents/prompts/gitops-rollout-review.prompt.md` as a rollout-focused variant when the review is specifically about merge or rollout risk.
 
 Working rules:
 

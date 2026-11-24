@@ -1,5 +1,5 @@
 ---
-name: agent-design
+name: design-agent
 description: Design new reusable AI agents for this repository.
 ---
 
@@ -9,7 +9,7 @@ Use this skill when creating new reusable agents that coordinate repository work
 
 User-facing prompt reference:
 
-- `.agents/prompts/agent-design.md`
+- `.agents/prompts/agent-design.prompt.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 
@@ -31,19 +31,19 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 
 1. **Validate the workflow scope:** Confirm the agent represents a real, frequently-invoked repository workflow—not a hypothetical or one-off task.
 
-2. **Review existing coverage:** Check if an existing skill or prompt already covers this workflow. Reuse rather than duplicate.
+1. **Review existing coverage:** Check if an existing skill or prompt already covers this workflow. Reuse rather than duplicate.
 
-3. **Define clear boundaries:** Document:
+1. **Define clear boundaries:** Document:
    - When to use this agent (what triggers it?)
    - What inputs it should inspect (files, directories, prior context)
    - What outputs it should produce
    - How it differs from related agents or workflows
 
-4. **Create the canonical definition:** Write the agent in Markdown with YAML frontmatter, tool-agnostic and stored in `.agents/agents/`.
+1. **Create the canonical definition:** Write the agent in Markdown with YAML frontmatter, tool-agnostic and stored in `.agents/agents/`.
 
-5. **Link related assets:** Reference linked skills, prompts, and agents from the canonical definition so the workflow is discoverable.
+1. **Link related assets:** Reference linked skills, prompts, and agents from the canonical definition so the workflow is discoverable.
 
-6. **Consider tool-specific wrappers:** If the agent will be used in multiple tools, keep the canonical definition tool-neutral and create thin derivatives for each tool.
+1. **Consider tool-specific wrappers:** If the agent will be used in multiple tools, keep the canonical definition tool-neutral and create thin derivatives for each tool.
 
 ## Output Expectations
 

@@ -9,7 +9,7 @@ Use this skill when the repository has recorded answers inside `QUESTIONS.md` or
 
 User-facing prompt reference:
 
-- `.agents/prompts/resolve-answered-questions.md`
+- `.agents/prompts/resolve-answered-questions.prompt.md`
 
 Use that prompt when you want a short reusable invocation for this workflow. Treat this skill as the procedural source of truth and keep the prompt concise.
 
@@ -23,6 +23,9 @@ Use that prompt when you want a short reusable invocation for this workflow. Tre
 - `.agents/skills/`
 
 See `AGENTS.md` for repository-wide guidance.
+
+`QUESTIONS.md` and `SUGGESTIONS.md` are optional. If neither exists, report
+that there is nothing to resolve and stop. Do not create them.
 
 ## Workflow
 

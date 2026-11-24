@@ -18,9 +18,9 @@ Use this skill when you need to verify that the repository's AI asset layout fol
 ## Workflow
 
 1. Review the repository asset directories and confirm the expected naming conventions.
-2. Run the validator script at `.agents/skills/validate-ai-assets/validate-ai-assets.py`.
-3. If validation fails, fix the offending file names or layout issues before reporting completion.
-4. Re-run the validator and confirm it passes.
+1. Run the validator script at `.agents/scripts/validate.py`.
+1. If validation fails, fix the offending file names or layout issues before reporting completion.
+1. Re-run the validator and confirm it passes.
 
 ## Output expectations
 
