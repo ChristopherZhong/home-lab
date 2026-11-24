@@ -1,5 +1,17 @@
 # 🏡 Kubernetes Home Lab
 
+[![Validate AI assets](https://github.com/ChristopherZhong/home-lab/actions/workflows/validate-ai-assets.yml/badge.svg)](https://github.com/ChristopherZhong/home-lab/actions/workflows/validate-ai-assets.yml)
+[![License: Apache 2.0](https://img.shields.io/github/license/ChristopherZhong/home-lab)](LICENSE)
+[![Renovate enabled](https://img.shields.io/badge/Renovate-enabled-1A1F6C?logo=renovatebot&logoColor=white)](renovate.json)
+[![Last commit](https://img.shields.io/github/last-commit/ChristopherZhong/home-lab)](https://github.com/ChristopherZhong/home-lab/commits/main)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/ChristopherZhong/home-lab)](https://github.com/ChristopherZhong/home-lab/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/ChristopherZhong/home-lab)](https://github.com/ChristopherZhong/home-lab/graphs/contributors)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![K3s](https://img.shields.io/badge/K3s-FFC61C?logo=k3s&logoColor=black)](https://k3s.io/)
+[![Argo CD](https://img.shields.io/badge/Argo%20CD-EF7B4D?logo=argo&logoColor=white)](https://argo-cd.readthedocs.io/)
+[![Tailscale](https://img.shields.io/badge/Tailscale-242424?logo=tailscale&logoColor=white)](https://tailscale.com/)
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?logo=raspberrypi&logoColor=white)](https://www.raspberrypi.com/)
+
 A comprehensive guide to building a production-ready Kubernetes home lab, starting with a single Raspberry Pi 5 and growing incrementally. This project documents the journey of learning Kubernetes while building a well-structured cluster for home use.
 
 ## 📁 Current Repository State
